@@ -1,0 +1,77 @@
+name: admin_panel_web
+description: A new Flutter project.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.3 <4.0.0"
+
+dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
+  form_input:
+    path: packages/form_input
+  manage_user_repository:
+    path: packages/manage_user_repository
+  banner_repository:
+    path: packages/banner_repository
+  category_repository:
+    path: packages/category_repository
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.14.0
+  firebase_auth: ^4.6.3
+  flutter_bloc: ^8.1.3
+  bloc: ^8.1.2
+  formz: ^0.6.0
+  flow_builder: ^0.0.9
+  equatable: ^2.0.5
+  meta: ^1.9.1
+  responsive_framework: ^1.1.0
+  sizer: ^2.0.15
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.0
+  flutter_svg: ^2.0.7
+  cool_alert: ^2.0.1
+  cloud_firestore: ^4.8.2
+  
+  cached_network_image: ^3.2.3
+  dartz: ^0.10.1
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/
+
+  fonts:
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Tajawal-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Tajawal-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Tajawal-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Tajawal-Black.ttf
+          weight: 900
