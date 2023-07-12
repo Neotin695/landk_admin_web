@@ -1,8 +1,9 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:form_input/form_input.dart';
 import 'package:formz/formz.dart';
+
+import '../../../core/services/form_input/form_input.dart';
+import '../repository/authentication_repository.dart';
 
 part 'auth_state.dart';
 

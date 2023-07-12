@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:manage_user_repository/manage_user_repository.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/constances/media_const.dart';
 import '../../../core/theme/colors/landk_colors.dart';
 import '../../../core/theme/fonts/landk_fonts.dart';
 import '../bloc/manage_user_bloc.dart';
+import '../repository/manage_user_repository.dart';
 
 // ignore: must_be_immutable
 class CustomerList extends StatefulWidget {

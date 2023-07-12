@@ -22,9 +22,9 @@ class DeleteBanner extends BannerEvent {
     required this.uid,
   });
 }
-class InsertBanner extends BannerEvent {
-  final String imageUrl;
-  const InsertBanner({
-    required this.imageUrl,
-  });
+
+class InsertBanner extends BannerEvent {}
+
+class SelectImage extends BannerEvent {
+  
 }

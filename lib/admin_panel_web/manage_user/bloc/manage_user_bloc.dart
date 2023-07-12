@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:manage_user_repository/manage_user_repository.dart';
+
+import '../repository/manage_user_repository.dart';
 part 'manage_user_event.dart';
 part 'manage_user_state.dart';
 

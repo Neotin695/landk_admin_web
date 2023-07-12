@@ -2,14 +2,19 @@ import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sizer/sizer.dart';
+
+import '../bloc/category_bloc.dart';
+
 
 class CategoryView extends StatelessWidget {
   const CategoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -61,6 +66,7 @@ class _Actions extends StatelessWidget {
           child: Center(
             child: Expanded(
               child: TextField(
+                controller: context.select((CategoryBloc value) => value.name),
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.typeCategoryName,
@@ -71,7 +77,9 @@ class _Actions extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), border: Border.all()),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(),
+          ),
           child: _UploadImage(),
         ),
         ElevatedButton(

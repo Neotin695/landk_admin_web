@@ -1,21 +1,23 @@
-import 'package:admin_panel_web/admin_panel_web/app/routes/routes.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/breakpoint.dart';
 import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/language/l10n/l10n.dart';
-import '../bloc/app_bloc.dart';
+import '../../../lang.dart';
+import '../../auth/repository/authentication_repository.dart';
+import '../app.dart';
+
 
 class App extends StatelessWidget {
   const App({super.key, required this.authenticationRepository});
 
   final AuthenticationRepository authenticationRepository;
+
+  
 
   @override
   Widget build(BuildContext context) {
