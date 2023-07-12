@@ -4,9 +4,9 @@ import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/language/lang.dart';
 import '../bloc/manage_user_bloc.dart';
 
 class ManageUserView extends StatefulWidget {

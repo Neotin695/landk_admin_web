@@ -5,9 +5,10 @@ import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../core/language/lang.dart';
 
 class HomePage extends StatefulWidget {
   static Page page() => const MaterialPage(child: HomePage());

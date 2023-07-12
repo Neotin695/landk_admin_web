@@ -5,7 +5,7 @@ import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../core/language/lang.dart';
 
 class BannerView extends StatefulWidget {
   const BannerView({super.key});
@@ -60,53 +60,72 @@ class _Actions extends StatelessWidget with PickMediaMixin {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const _UploadImage(),
-        ElevatedButton(
-          onPressed: () {
-            context.read<BannerBloc>().add(InsertBanner());
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: organge,
-            padding: const EdgeInsets.all(40),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        hSpace(5),
+        Expanded(child: _UploadImage()),
+        hSpace(5),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<BannerBloc>().add(InsertBanner());
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: organge,
+              padding: const EdgeInsets.all(40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
+            child: Text(AppLocalizations.of(context)!.saveNewBanner),
           ),
-          child: Text(AppLocalizations.of(context)!.saveNewBanner),
         ),
+        hSpace(5),
       ],
     );
   }
 }
 
 class _UploadImage extends StatelessWidget {
-  const _UploadImage();
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), border: Border.all()),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(),
+      ),
       child: Row(
         children: [
-          ElevatedButton(
-            onPressed: () async {
-              context.read<BannerBloc>().add(SelectImage());
-            },
-            style: ElevatedButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                context.read<BannerBloc>().add(PickImage());
+              },
+              style: ElevatedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                ),
+                backgroundColor: organge,
+                padding: const EdgeInsets.all(40),
               ),
-              backgroundColor: organge,
-              padding: const EdgeInsets.all(40),
+              child: Text(AppLocalizations.of(context)!.uploadImage),
             ),
-            child: Text(AppLocalizations.of(context)!.uploadImage),
           ),
-          BlocBuilder<BannerBloc, BannerState>(
-            builder: (context1s, state) {
-              if (state.status == BannerStatus.success) {
+          Expanded(
+            child: BlocBuilder<BannerBloc, BannerState>(
+              builder: (context, state) {
+                if (state.status == BannerStatus.success) {
+                  return Container(
+                      padding: const EdgeInsets.all(32),
+                      decoration: BoxDecoration(
+                        color: white,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
+                      ),
+                      child:
+                          Image.memory(context.read<BannerBloc>().imageUrl!));
+                }
                 return Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
@@ -115,15 +134,11 @@ class _UploadImage extends StatelessWidget {
                         topLeft: Radius.circular(10),
                         bottomLeft: Radius.circular(10)),
                   ),
-                  child: Text(
-                    context.read<BannerBloc>().imageName,
-                    style: h6!.copyWith(color: black),
-                  ),
+                  child: const SizedBox(),
                 );
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          ),
+              },
+            ),
+          )
         ],
       ),
     );

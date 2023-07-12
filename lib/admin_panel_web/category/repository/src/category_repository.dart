@@ -1,16 +1,24 @@
-import 'model/model.dart';
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'model/category.dart';
+
 abstract class _CategoryRepository {
-  Future<void> insertCategory(String url,String name);
+  Future<TaskState> insertCategory(Uint8List url, String name);
   Future<void> deleteCategory(String id);
   Stream<List<Category>> fetchAllCategory();
 }
 
 class CategoryRepository implements _CategoryRepository {
   final FirebaseFirestore _firestore;
+  final FirebaseStorage _firebaseStorage;
 
-  CategoryRepository() : _firestore = FirebaseFirestore.instance;
+  CategoryRepository()
+      : _firestore = FirebaseFirestore.instance,
+        _firebaseStorage = FirebaseStorage.instance;
   @override
   Future<void> deleteCategory(String id) async {
     await _firestore.collection('category').doc(id).delete();
@@ -24,11 +32,34 @@ class CategoryRepository implements _CategoryRepository {
   }
 
   @override
-  Future<void> insertCategory(String url,String name) async {
+  Future<TaskState> insertCategory(Uint8List url, String name) async {
     final String docId = _firestore.collection('category').doc().id;
-    await _firestore
-        .collection('category')
-        .doc(docId)
-        .set(Category(id: docId, imageUrl: url,name: name).toMap());
+
+    try {
+      final metadata = SettableMetadata(contentType: 'image/jpeg');
+      final snapshot = await _firebaseStorage
+          .ref('category')
+          .child('$name.jpeg')
+          .putData(url, metadata);
+      if (snapshot.state == TaskState.success) {
+        await _firestore.collection('category').doc(docId).set(Category(
+                id: docId,
+                imageUrl: await snapshot.ref.getDownloadURL(),
+                name: name)
+            .toMap());
+        return TaskState.success;
+      } else if (snapshot.state == TaskState.running) {
+        return TaskState.running;
+      } else if (snapshot.state == TaskState.canceled) {
+        print('category error');
+
+        return TaskState.canceled;
+      } else {
+        return TaskState.error;
+      }
+    } catch (e) {
+      print(e);
+      return TaskState.error;
+    }
   }
 }

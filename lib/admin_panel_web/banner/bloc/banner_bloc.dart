@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
 
 import '../repository/banner_repository.dart';
 
@@ -17,7 +16,7 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
       : super(const BannerState(status: BannerStatus.initial)) {
     on<_FethcAllBanners>(_fetchAllBanners);
 
-    on<SelectImage>(_pickeImage);
+    on<PickImage>(_pickeImage);
     on<DeleteBanner>(_deleteBanner);
     on<InsertBanner>(_insertBanner);
     _streamSubscription = bannerRepository.fetchAllBanners().listen((event) {
@@ -25,23 +24,13 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
     });
   }
 
-  FutureOr<void> _pickeImage(SelectImage event, emit) async {
+  FutureOr<void> _pickeImage(PickImage event, emit) async {
     emit(const BannerState(status: BannerStatus.loading));
-    try {
-      final file =
-          // ignore: invalid_use_of_visible_for_testing_member
-          await ImagePickerPlugin().pickImage(source: ImageSource.gallery);
-      if (file.path.isEmpty) {
-        imageUrl = null;
-      } else {
-        imageUrl = await XFile(file.path).readAsBytes();
-
-        emit(const BannerState(status: BannerStatus.success));
-      }
-    } on PlatformException {
-      rethrow;
-    } catch (e) {
-      rethrow;
+    final result = await pickSingleImage(ImageSource.gallery);
+    // print(result!.length);
+    if (result != null) {
+      imageUrl = result;
+      emit(const BannerState(status: BannerStatus.success));
     }
   }
 

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sizer/sizer.dart';
 import '../../../core/theme/colors/landk_colors.dart';
+import '../../../core/language/lang.dart';
 import '../cubit/auth_cubit.dart';
 
 class AuthView extends StatelessWidget {

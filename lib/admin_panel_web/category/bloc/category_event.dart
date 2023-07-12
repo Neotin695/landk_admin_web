@@ -23,9 +23,6 @@ class DeleteCategory extends CategoryEvent {
   });
 }
 
-class InsertCategory extends CategoryEvent {
-  final String imageUrl;
-  const InsertCategory({
-    required this.imageUrl,
-  });
-}
+class InsertCategory extends CategoryEvent {}
+
+class PickImage extends CategoryEvent {}

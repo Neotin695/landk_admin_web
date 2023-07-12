@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'model/model.dart';
 
 abstract class _BannerRepository {
-  Future<void> insertBanner(Uint8List url);
+  Future<TaskState> insertBanner(Uint8List url);
   Future<void> deleteBanner(String id);
   Stream<List<Banner>> fetchAllBanners();
 }
@@ -31,7 +31,7 @@ class BannerRepository implements _BannerRepository {
   }
 
   @override
-  Future<void> insertBanner(Uint8List url) async {
+  Future<TaskState> insertBanner(Uint8List url) async {
     final String docId = _firestore.collection('banners').doc().id;
     try {
       final metadata = SettableMetadata(contentType: 'image/jpeg');
@@ -44,10 +44,19 @@ class BannerRepository implements _BannerRepository {
         await _firestore.collection('banners').doc(docId).set(
             Banner(id: docId, photoUrl: await snapshot.ref.getDownloadURL())
                 .toMap());
+        return TaskState.success;
+      } else if (snapshot.state == TaskState.running) {
+        return TaskState.running;
+      } else if (snapshot.state == TaskState.canceled) {
+        print('banner error');
+
+        return TaskState.canceled;
+      } else {
+        return TaskState.error;
       }
     } catch (e) {
       print(e);
+      return TaskState.error;
     }
   }
 }
- 

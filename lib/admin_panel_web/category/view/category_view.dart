@@ -3,18 +3,16 @@ import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../core/language/lang.dart';
 import 'package:sizer/sizer.dart';
 
 import '../bloc/category_bloc.dart';
-
 
 class CategoryView extends StatelessWidget {
   const CategoryView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -55,18 +53,19 @@ class _Actions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          width: 15.w,
-          height: 10.h,
-          decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(),
-          ),
-          child: Center(
-            child: Expanded(
+        hSpace(5),
+        Expanded(
+          child: Container(
+            width: 15.w,
+            height: 10.h,
+            decoration: BoxDecoration(
+              color: white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(),
+            ),
+            child: Center(
               child: TextField(
-                controller: context.select((CategoryBloc value) => value.name),
+                controller: context.read<CategoryBloc>().name,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                     hintText: AppLocalizations.of(context)!.typeCategoryName,
@@ -75,24 +74,25 @@ class _Actions extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(),
-          ),
-          child: _UploadImage(),
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: organge,
-            padding: const EdgeInsets.all(40),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+        hSpace(5),
+        Expanded(child: _UploadImage()),
+        hSpace(5),
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<CategoryBloc>().add(InsertCategory());
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: organge,
+              padding: const EdgeInsets.all(40),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
+            child: Text(AppLocalizations.of(context)!.saveNewCategory),
           ),
-          child: Text(AppLocalizations.of(context)!.saveNewCategory),
         ),
+        hSpace(5),
       ],
     );
   }
@@ -101,31 +101,62 @@ class _Actions extends StatelessWidget {
 class _UploadImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                context.read<CategoryBloc>().add(PickImage());
+              },
+              style: ElevatedButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                ),
+                backgroundColor: organge,
+                padding: const EdgeInsets.all(40),
+              ),
+              child: Text(AppLocalizations.of(context)!.uploadImage),
             ),
-            backgroundColor: organge,
-            padding: const EdgeInsets.all(40),
           ),
-          child: Text(AppLocalizations.of(context)!.uploadImage),
-        ),
-        Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            color: white,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-          ),
-          child: const Text(''),
-        )
-      ],
+          Expanded(
+            child: BlocBuilder<CategoryBloc, CategoryState>(
+              builder: (context, state) {
+                if (state.status == CategoryStatus.success) {
+                  return Container(
+                    padding: const EdgeInsets.all(32),
+                    decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          bottomLeft: Radius.circular(10)),
+                    ),
+                    child: Expanded(
+                        child: Image.memory(
+                            context.read<CategoryBloc>().imageUrl!)),
+                  );
+                }
+                return Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: white,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
+                  ),
+                  child: const SizedBox(),
+                );
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

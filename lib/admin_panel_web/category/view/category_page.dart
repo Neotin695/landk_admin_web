@@ -6,17 +6,21 @@ import '../repository/category_repository.dart';
 import 'category_view.dart';
 
 class CategoryPage extends StatelessWidget {
-  static Page page() => const MaterialPage(child: CategoryPage());
-  const CategoryPage({super.key});
+  static Page page() => MaterialPage(
+          child: CategoryPage(
+        categoryRepository: CategoryRepository(),
+      ));
+  const CategoryPage({super.key, required this.categoryRepository});
+
+  final CategoryRepository categoryRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => CategoryRepository(),
+    return RepositoryProvider.value(
+      value: (context) => categoryRepository,
       child: BlocProvider(
-        create: (context) => CategoryBloc(
-            categoryRepository:
-                context.select((CategoryRepository value) => value)),
+        create: (context) =>
+            CategoryBloc(categoryRepository: categoryRepository),
         child: const CategoryView(),
       ),
     );

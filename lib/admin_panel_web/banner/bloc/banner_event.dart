@@ -25,6 +25,4 @@ class DeleteBanner extends BannerEvent {
 
 class InsertBanner extends BannerEvent {}
 
-class SelectImage extends BannerEvent {
-  
-}
+class PickImage extends BannerEvent {}

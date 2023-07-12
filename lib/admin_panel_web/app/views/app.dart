@@ -7,7 +7,7 @@ import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/language/l10n/l10n.dart';
-import '../../../lang.dart';
+import '../../../core/language/lang.dart';
 import '../../auth/repository/authentication_repository.dart';
 import '../app.dart';
 
