@@ -108,9 +108,7 @@ class _SideBar extends StatelessWidget {
             ),
             ListTile(
               onTap: () => _controller.update((state) => HomeState.products),
-              leading: SvgPicture.asset(
-                iProduct,
-              ),
+              leading: SvgPicture.asset(iProduct),
               title: Text(AppLocalizations.of(context)!.product),
             ),
             ListTile(

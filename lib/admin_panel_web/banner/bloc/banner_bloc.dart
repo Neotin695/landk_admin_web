@@ -19,18 +19,22 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
     on<PickImage>(_pickeImage);
     on<DeleteBanner>(_deleteBanner);
     on<InsertBanner>(_insertBanner);
-    _streamSubscription = bannerRepository.fetchAllBanners().listen((event) {
-      add(_FethcAllBanners(banners: event));
+    bannerRepository.fetchAllBanners().fold((l) {
+      print(l);
+    }, (r) {
+      _streamSubscription = r.listen((event) {
+        banners = event;
+        add(_FethcAllBanners(banners: banners));
+      });
     });
   }
 
   FutureOr<void> _pickeImage(PickImage event, emit) async {
-    emit(const BannerState(status: BannerStatus.loading));
+    emit(const BannerState(status: BannerStatus.pickLoading));
     final result = await pickSingleImage(ImageSource.gallery);
-    // print(result!.length);
     if (result != null) {
       imageUrl = result;
-      emit(const BannerState(status: BannerStatus.success));
+      emit(const BannerState(status: BannerStatus.pickSuccess));
     }
   }
 
@@ -38,7 +42,6 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
   late final StreamSubscription<List<Banner>> _streamSubscription;
   List<Banner> banners = [];
   Uint8List? imageUrl;
-  String imageName = '';
 
   FutureOr<void> _deleteBanner(DeleteBanner event, emit) async {
     emit(const BannerState(status: BannerStatus.loading));
@@ -56,12 +59,22 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
   FutureOr<void> _insertBanner(InsertBanner event, emit) async {
     emit(const BannerState(status: BannerStatus.loading));
     if (imageUrl != null) {
-      await bannerRepository.insertBanner(imageUrl!).then(
-          (value) => emit(const BannerState(status: BannerStatus.success)));
+      await bannerRepository.insertBanner(imageUrl!).then((value) {
+        imageUrl = null;
+        emit(const BannerState(status: BannerStatus.pickLoading));
+        emit(const BannerState(status: BannerStatus.success));
+      });
     }
+    emit(const BannerState(status: BannerStatus.loadedData));
   }
 
   FutureOr<void> _fetchAllBanners(_FethcAllBanners event, emit) {
+    emit(const BannerState(status: BannerStatus.loadingData));
     banners = event.banners;
+    if (banners.isNotEmpty) {
+      emit(const BannerState(status: BannerStatus.loadedData));
+    } else {
+      emit(const BannerState(status: BannerStatus.initial));
+    }
   }
 }

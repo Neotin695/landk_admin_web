@@ -1,7 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'banner_bloc.dart';
 
-enum BannerStatus { loading, success, failure, initial }
+enum BannerStatus {
+  loading,
+  success,
+  failure,
+  initial,
+  pickLoading,
+  loadingData,
+  loadedData,
+  pickSuccess
+}
 
 class BannerState extends Equatable {
   final BannerStatus status;

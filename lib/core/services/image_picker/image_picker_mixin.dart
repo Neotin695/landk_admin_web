@@ -15,10 +15,11 @@ mixin PickMediaMixin {
       }
     } on PlatformException catch (err) {
       print(err);
+      return null;
     } catch (e) {
       print(e);
+      return null;
     }
-    return null;
   }
 
   Future<List<Uint8List>?> pickMultiImage() async {

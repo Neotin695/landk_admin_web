@@ -26,19 +26,17 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
 
   final CategoryRepository categoryRepository;
   late final StreamSubscription<List<Category>> _streamSubscription;
-  List<Category> categorys = [];
+  List<Category> categories = [];
   final TextEditingController name = TextEditingController();
 
   Uint8List? imageUrl;
-  String imageName = '';
 
   FutureOr<void> _pickImage(event, emit) async {
-    emit(const CategoryState(status: CategoryStatus.loading));
+    emit(const CategoryState(status: CategoryStatus.pickLoading));
     final result = await pickSingleImage(ImageSource.gallery);
-    // print(result!.length);
     if (result != null) {
       imageUrl = result;
-      emit(const CategoryState(status: CategoryStatus.success));
+      emit(const CategoryState(status: CategoryStatus.pickSuccess));
     }
   }
 
@@ -58,22 +56,31 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
     emit(const CategoryState(status: CategoryStatus.loading));
     if (name.text.isNotEmpty) {
       if (imageUrl != null) {
-        await categoryRepository.insertCategory(imageUrl!, name.text).then(
-            (value) =>
-                emit(const CategoryState(status: CategoryStatus.success)));
+        await categoryRepository
+            .insertCategory(imageUrl!, name.text)
+            .then((value) {
+          imageUrl = null;
+
+          name.clear();
+          emit(const CategoryState(status: CategoryStatus.pickLoading));
+          emit(const CategoryState(status: CategoryStatus.success));
+        });
       } else {
         emit(const CategoryState(status: CategoryStatus.failure));
       }
     } else {
       emit(const CategoryState(status: CategoryStatus.failure));
     }
+      emit(const CategoryState(status: CategoryStatus.loadedData));
   }
 
   FutureOr<void> _fetchAllCategorys(_FethcAllCategory event, emit) {
-    // emit(const CategoryState(status: CategoryStatus.loading));
-    categorys = event.categories;
-    // if (categorys.isNotEmpty) {
-    //   emit(const CategoryState(status: CategoryStatus.success));
-    // }
+    emit(const CategoryState(status: CategoryStatus.loadingData));
+    categories = event.categories;
+    if (categories.isNotEmpty) {
+      emit(const CategoryState(status: CategoryStatus.loadedData));
+    }else{
+       emit(const CategoryState(status: CategoryStatus.initial));
+    }
   }
 }

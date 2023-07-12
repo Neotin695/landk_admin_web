@@ -5,17 +5,19 @@ import '../repository/manage_user_repository.dart';
 import 'manage_user_view.dart';
 
 class ManageUserPage extends StatelessWidget {
-  static Page page() => const MaterialPage(child: ManageUserPage());
-  const ManageUserPage({super.key});
-
+  static Page page() => MaterialPage(
+          child: ManageUserPage(
+        manageUserRepository: ManageUserRepository(),
+      ));
+  const ManageUserPage({super.key, required this.manageUserRepository});
+  final ManageUserRepository manageUserRepository;
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (context) => ManageUserRepository(),
+      value: (context) => manageUserRepository,
       child: BlocProvider(
-        create: (context) => ManageUserBloc(
-            manageUserRepository:
-                context.select((ManageUserRepository value) => value)),
+        create: (context) =>
+            ManageUserBloc(manageUserRepository: manageUserRepository),
         child: const ManageUserView(),
       ),
     );

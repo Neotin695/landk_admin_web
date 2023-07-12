@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'model/model.dart';
@@ -8,7 +9,7 @@ import 'model/model.dart';
 abstract class _BannerRepository {
   Future<TaskState> insertBanner(Uint8List url);
   Future<void> deleteBanner(String id);
-  Stream<List<Banner>> fetchAllBanners();
+  Either<String, Stream<List<Banner>>> fetchAllBanners();
 }
 
 class BannerRepository implements _BannerRepository {
@@ -24,10 +25,17 @@ class BannerRepository implements _BannerRepository {
   }
 
   @override
-  Stream<List<Banner>> fetchAllBanners() {
-    return _firestore.collection('banners').snapshots().map((event) {
-      return event.docs.map((e) => Banner.fromMap(e.data())).toList();
-    });
+  Either<String, Stream<List<Banner>>> fetchAllBanners() {
+    try {
+      return Right(_firestore.collection('banners').snapshots().map(
+        (event) {
+          return event.docs.map((e) => Banner.fromMap(e.data())).toList();
+        },
+      ));
+    } catch (er) {
+      print(er);
+      return Left(er.toString());
+    }
   }
 
   @override

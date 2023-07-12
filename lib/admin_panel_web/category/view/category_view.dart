@@ -1,6 +1,7 @@
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/language/lang.dart';
@@ -40,11 +41,57 @@ class CategoryView extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                AppLocalizations.of(context)!.categories,
+                style: h5,
+              ),
+            ),
+          ),
+          BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state.status == CategoryStatus.loadedData) {
+                return Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    children: context.read<CategoryBloc>().categories.map((e) {
+                      return Column(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: e.imageUrl,
+                            placeholder: (context, url) => loadingWidget(),
+                          ),
+                          vSpace(1),
+                          Text(
+                            e.name,
+                            style: h6!.copyWith(
+                              fontSize: 5.sp,
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                );
+              } else if (state.status == CategoryStatus.loadingData) {
+                return loadingWidget();
+              } else {
+                return empty();
+              }
+            },
           )
         ],
       ),
     );
   }
+
+  
 }
 
 class _Actions extends StatelessWidget {
@@ -78,18 +125,24 @@ class _Actions extends StatelessWidget {
         Expanded(child: _UploadImage()),
         hSpace(5),
         Expanded(
-          child: ElevatedButton(
-            onPressed: () {
-              context.read<CategoryBloc>().add(InsertCategory());
+          child: BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              return ElevatedButton(
+                onPressed: () {
+                  context.read<CategoryBloc>().add(InsertCategory());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: organge,
+                  padding: const EdgeInsets.all(40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: state.status == CategoryStatus.loading
+                    ? loadingWidget()
+                    : Text(AppLocalizations.of(context)!.saveNewCategory),
+              );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: organge,
-              padding: const EdgeInsets.all(40),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text(AppLocalizations.of(context)!.saveNewCategory),
           ),
         ),
         hSpace(5),
@@ -128,7 +181,7 @@ class _UploadImage extends StatelessWidget {
           Expanded(
             child: BlocBuilder<CategoryBloc, CategoryState>(
               builder: (context, state) {
-                if (state.status == CategoryStatus.success) {
+                if (state.status == CategoryStatus.pickSuccess) {
                   return Container(
                     padding: const EdgeInsets.all(32),
                     decoration: BoxDecoration(
@@ -137,9 +190,7 @@ class _UploadImage extends StatelessWidget {
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10)),
                     ),
-                    child: Expanded(
-                        child: Image.memory(
-                            context.read<CategoryBloc>().imageUrl!)),
+                    child: Image.memory(context.read<CategoryBloc>().imageUrl!),
                   );
                 }
                 return Container(
@@ -154,7 +205,7 @@ class _UploadImage extends StatelessWidget {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );

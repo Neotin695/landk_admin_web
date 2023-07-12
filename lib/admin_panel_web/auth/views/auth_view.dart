@@ -89,7 +89,10 @@ class _SignInBtn extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(organge),
           ),
           child: state.status == FormzSubmissionStatus.inProgress
-              ? const Center(child: CircularProgressIndicator())
+              ? SizedBox(
+                  width: 5.w,
+                  height: 5.h,
+                  child: const Center(child: CircularProgressIndicator()))
               : Text(
                   AppLocalizations.of(context)!.signIn,
                   style: btnFont,
