@@ -14,7 +14,7 @@ class ManageUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (context) => manageUserRepository,
+      value: manageUserRepository,
       child: BlocProvider(
         create: (context) =>
             ManageUserBloc(manageUserRepository: manageUserRepository),

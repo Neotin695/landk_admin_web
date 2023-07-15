@@ -1,11 +1,25 @@
+import 'package:admin_panel_web/admin_panel_web/home/views/dashboard_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/dashboard_bloc.dart';
+import '../repository/dashboard_repository.dart';
 
 class DashboardPage extends StatelessWidget {
-  static Page page() => const MaterialPage(child: DashboardPage());
-  const DashboardPage({super.key});
-
+  static Page page() => MaterialPage(
+          child: DashboardPage(
+        dashboardRepository: DashboardRepository(),
+      ));
+  const DashboardPage({super.key, required this.dashboardRepository});
+  final DashboardRepository dashboardRepository;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return RepositoryProvider.value(
+        value: dashboardRepository,
+        child: BlocProvider(
+          create: (context) =>
+              DashboardBloc(dashboardRepository: dashboardRepository),
+          child: const DashboardView(),
+        ));
   }
 }

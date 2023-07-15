@@ -44,10 +44,9 @@ class BannerBloc extends Bloc<BannerEvent, BannerState> with PickMediaMixin {
   Uint8List? imageUrl;
 
   FutureOr<void> _deleteBanner(DeleteBanner event, emit) async {
-    emit(const BannerState(status: BannerStatus.loading));
-    await bannerRepository
-        .deleteBanner(event.uid)
-        .then((value) => emit(const BannerState(status: BannerStatus.success)));
+    emit(const BannerState(status: BannerStatus.loadingData));
+    await bannerRepository.deleteBanner(event.uid).then(
+        (value) => emit(const BannerState(status: BannerStatus.loadedData)));
   }
 
   @override

@@ -27,7 +27,10 @@
   "saveNewCategory": "Save New Category",
   "typeCategoryName": "Type Category Name",
   "insertNewCategory": "Insert Newe Category",
+  "newDelegates": "New Delegates",
+  "stors": "Stores",
+  "products": "products",
   "uploadImage": "Upload Image",
+  "accept": "Accept",
   "signOut": "Sign out"
-  
 }

@@ -41,9 +41,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
   }
 
   FutureOr<void> _deleteCategory(DeleteCategory event, emit) async {
-    emit(const CategoryState(status: CategoryStatus.loading));
+    emit(const CategoryState(status: CategoryStatus.loadingData));
     await categoryRepository.deleteCategory(event.uid).then(
-        (value) => emit(const CategoryState(status: CategoryStatus.success)));
+        (value) => emit(const CategoryState(status: CategoryStatus.loadedData)));
   }
 
   @override

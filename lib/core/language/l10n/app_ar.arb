@@ -27,6 +27,11 @@
   "uploadImage": "رفع صورة",
   "insertNewCategory": "أدخل فئة جديدة",
   "name": "الاسم",
+  "stors": "المتاجر",
+ 
+  "products": "المنتاجات",
+  "newDelegates": "المندوبون الجدد",
+  "accept": "قبول",
   "phoneNum": "رقم الهاتف",
   "status": "الحالة"
 }

@@ -61,20 +61,26 @@ class CategoryView extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                     children: context.read<CategoryBloc>().categories.map((e) {
-                      return Column(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: e.imageUrl,
-                            placeholder: (context, url) => loadingWidget(),
-                          ),
-                          vSpace(1),
-                          Text(
-                            e.name,
-                            style: h6!.copyWith(
-                              fontSize: 5.sp,
+                      return GestureDetector(
+                        onDoubleTap: () => context
+                            .read<CategoryBloc>()
+                            .add(DeleteCategory(uid: e.id)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: e.imageUrl,
+                              placeholder: (context, url) => loadingWidget(),
                             ),
-                          ),
-                        ],
+                            vSpace(1),
+                            Text(
+                              e.name,
+                              style: h6!.copyWith(
+                                fontSize: 5.sp,
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),
@@ -90,8 +96,6 @@ class CategoryView extends StatelessWidget {
       ),
     );
   }
-
-  
 }
 
 class _Actions extends StatelessWidget {
@@ -140,7 +144,10 @@ class _Actions extends StatelessWidget {
                 ),
                 child: state.status == CategoryStatus.loading
                     ? loadingWidget()
-                    : Text(AppLocalizations.of(context)!.saveNewCategory),
+                    : Text(
+                        AppLocalizations.of(context)!.saveNewCategory,
+                        style: btnFont!.copyWith(color: white),
+                      ),
               );
             },
           ),
@@ -175,7 +182,10 @@ class _UploadImage extends StatelessWidget {
                 backgroundColor: organge,
                 padding: const EdgeInsets.all(40),
               ),
-              child: Text(AppLocalizations.of(context)!.uploadImage),
+              child: Text(
+                AppLocalizations.of(context)!.uploadImage,
+                style: btnFont!.copyWith(color: white),
+              ),
             ),
           ),
           Expanded(

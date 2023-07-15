@@ -1,5 +1,5 @@
 import 'package:admin_panel_web/admin_panel_web/banner/view/banner_page.dart';
-import 'package:admin_panel_web/admin_panel_web/delivry/view/delivery_page.dart';
+import 'package:admin_panel_web/admin_panel_web/delegates/view/manage_delegate_page.dart';
 import 'package:admin_panel_web/admin_panel_web/manage_user/view/manage_user_page.dart';
 import 'package:admin_panel_web/admin_panel_web/orders/view/order_page.dart';
 import 'package:admin_panel_web/admin_panel_web/product/view/product_page.dart';
@@ -43,7 +43,7 @@ List<Page> onGenerateHomePage(HomeState state, List<Page> pages) {
     case HomeState.notification:
       return [NotificationPage.page()];
     case HomeState.delegates:
-      return [DeliveryPage.page()];
+      return [DelegatesPage.page()];
     case HomeState.categories:
       return [CategoryPage.page()];
   }

@@ -4,6 +4,7 @@ import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/language/lang.dart';
@@ -65,16 +66,28 @@ class _BannerViewState extends State<BannerView> {
                     crossAxisCount: 4,
                     mainAxisSpacing: 2,
                     crossAxisSpacing: 2,
-                    children: context.read<BannerBloc>().banners.map((e) {
-                      return Column(
-                        children: [
-                          CachedNetworkImage(
-                            imageUrl: e.photoUrl,
-                            placeholder: (context, url) => loadingWidget(),
+                    children: context.read<BannerBloc>().banners.map(
+                      (e) {
+                        return GestureDetector(
+                          onTap: () {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.confirm,
+                              onConfirmBtnTap: () {},
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: e.photoUrl,
+                                placeholder: (context, url) => loadingWidget(),
+                              ),
+                            ],
                           ),
-                        ],
-                      );
-                    }).toList(),
+                        );
+                      },
+                    ).toList(),
                   ),
                 );
               } else if (state.status == BannerStatus.loadingData) {
@@ -114,7 +127,10 @@ class _Actions extends StatelessWidget with PickMediaMixin {
                 ),
                 child: state.status == BannerStatus.loading
                     ? loadingWidget()
-                    : Text(AppLocalizations.of(context)!.saveNewBanner),
+                    : Text(
+                        AppLocalizations.of(context)!.saveNewBanner,
+                        style: btnFont!.copyWith(color: white),
+                      ),
               );
             },
           ),
@@ -149,7 +165,10 @@ class _UploadImage extends StatelessWidget {
                 backgroundColor: organge,
                 padding: const EdgeInsets.all(40),
               ),
-              child: Text(AppLocalizations.of(context)!.uploadImage),
+              child: Text(
+                AppLocalizations.of(context)!.uploadImage,
+                style: btnFont!.copyWith(color: white),
+              ),
             ),
           ),
           Expanded(

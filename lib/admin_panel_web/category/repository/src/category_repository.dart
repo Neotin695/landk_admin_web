@@ -21,7 +21,8 @@ class CategoryRepository implements _CategoryRepository {
         _firebaseStorage = FirebaseStorage.instance;
   @override
   Future<void> deleteCategory(String id) async {
-    await _firestore.collection('category').doc(id).delete();
+    _firebaseStorage.ref('category').child(id).delete().then((value) async =>
+        await _firestore.collection('category').doc(id).delete());
   }
 
   @override

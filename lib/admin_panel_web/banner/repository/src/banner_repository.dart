@@ -21,7 +21,8 @@ class BannerRepository implements _BannerRepository {
         _firebaseStorage = FirebaseStorage.instance;
   @override
   Future<void> deleteBanner(String id) async {
-    await _firestore.collection('banners').doc(id).delete();
+    _firebaseStorage.ref('banners').child(id).delete().then((value) async =>
+        await _firestore.collection('banners').doc(id).delete());
   }
 
   @override
@@ -45,7 +46,7 @@ class BannerRepository implements _BannerRepository {
       final metadata = SettableMetadata(contentType: 'image/jpeg');
       final snapshot = await _firebaseStorage
           .ref('banners')
-          .child('${Timestamp.now().microsecondsSinceEpoch}.jpeg')
+          .child('$docId.jpeg')
           .putData(url, metadata);
 
       if (snapshot.state == TaskState.success) {
