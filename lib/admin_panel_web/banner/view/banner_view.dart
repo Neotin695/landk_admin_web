@@ -4,7 +4,6 @@ import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/language/lang.dart';
@@ -20,14 +19,7 @@ class _BannerViewState extends State<BannerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: white,
-        title: Text(
-          AppLocalizations.of(context)!.banner,
-          style: TextStyle(color: black),
-        ),
-        centerTitle: true,
-      ),
+      appBar: customAppBar(context, AppLocalizations.of(context)!.banner),
       body: Column(
         children: [
           Card(
@@ -50,7 +42,6 @@ class _BannerViewState extends State<BannerView> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Align(
-              alignment: Alignment.topRight,
               child: Text(
                 AppLocalizations.of(context)!.banner,
                 style: h5,
@@ -69,21 +60,10 @@ class _BannerViewState extends State<BannerView> {
                     children: context.read<BannerBloc>().banners.map(
                       (e) {
                         return GestureDetector(
-                          onTap: () {
-                            CoolAlert.show(
-                              context: context,
-                              type: CoolAlertType.confirm,
-                              onConfirmBtnTap: () {},
-                            );
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: e.photoUrl,
-                                placeholder: (context, url) => loadingWidget(),
-                              ),
-                            ],
+                          onTap: () {},
+                          child: CachedNetworkImage(
+                            imageUrl: e.photoUrl,
+                            placeholder: (context, url) => loadingWidget(),
                           ),
                         );
                       },
@@ -144,11 +124,10 @@ class _Actions extends StatelessWidget with PickMediaMixin {
 class _UploadImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(),
-      ),
+    return Card(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(width: 1)),
       child: Row(
         children: [
           Expanded(
@@ -157,11 +136,8 @@ class _UploadImage extends StatelessWidget {
                 context.read<BannerBloc>().add(PickImage());
               },
               style: ElevatedButton.styleFrom(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 backgroundColor: organge,
                 padding: const EdgeInsets.all(40),
               ),

@@ -10,7 +10,7 @@ TextStyle? h3 = TextStyle(
 TextStyle? h4 = const TextStyle(
     fontSize: 50, fontFamily: 'Tajawal', fontWeight: FontWeight.w500);
 TextStyle? h5 = TextStyle(
-    fontSize: 7.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w400);
+    fontSize: 6.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w400);
 TextStyle? h6 = TextStyle(
     fontSize: 3.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w400);
 TextStyle? btnFont = TextStyle(

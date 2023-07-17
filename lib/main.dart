@@ -6,6 +6,7 @@ import 'admin_panel_web/app/app.dart';
 import 'admin_panel_web/auth/repository/authentication_repository.dart';
 import 'core/services/firebase_options.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

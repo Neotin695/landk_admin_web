@@ -7,7 +7,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/language/lang.dart';
 import '../bloc/manage_delegates_bloc.dart';
-import '../widget/banned_user_list.dart';
+import '../widget/banned_delegates_list.dart';
 import '../widget/delegates_list.dart';
 
 class ManageDelegatesView extends StatefulWidget {

@@ -6,12 +6,14 @@ import '../../../../../models/model.dart';
 class Customer extends Equatable {
   String id;
   String photoUrl;
-  bool active;
   String name;
   String email;
-  bool isEmailVerified;
   String phoneNum;
+  String token;
+  bool isEmailVerified;
+  bool active;
   AddressInfo location;
+
   List<String> orders;
 
   static Customer empty() => Customer(
@@ -22,6 +24,7 @@ class Customer extends Equatable {
       email: '',
       isEmailVerified: false,
       phoneNum: '',
+      token: '',
       location: AddressInfo.empty(),
       orders: const []);
 
@@ -34,6 +37,7 @@ class Customer extends Equatable {
     required this.isEmailVerified,
     required this.phoneNum,
     required this.location,
+    required this.token,
     required this.orders,
   });
 
@@ -46,6 +50,7 @@ class Customer extends Equatable {
       email,
       photoUrl,
       phoneNum,
+      token,
       isEmailVerified,
       location,
       orders,
@@ -59,6 +64,7 @@ class Customer extends Equatable {
       'name': name,
       'isEmailVerified': isEmailVerified,
       'email': email,
+      'token': token,
       'phoneNum': phoneNum,
       'photoUrl': photoUrl,
       'location': location.toMap(),
@@ -69,12 +75,13 @@ class Customer extends Equatable {
   factory Customer.fromMap(Map<String, dynamic> map) {
     return Customer(
         id: map['id'] as String,
-        active: map['active'] as bool,
         photoUrl: map['photoUrl'] as String,
-        isEmailVerified: map['isEmailVerified'] as bool,
         name: map['name'] as String,
+        token: map['token'] as String,
         email: map['email'] as String,
+        active: map['active'] as bool,
         phoneNum: map['phoneNum'] as String,
+        isEmailVerified: map['isEmailVerified'] as bool,
         location: AddressInfo.fromMap(map['location'] as Map<String, dynamic>),
         orders: List.from(map['orders'].map((e) => e)));
   }

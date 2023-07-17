@@ -17,7 +17,7 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (context) => categoryRepository,
+      value: categoryRepository,
       child: BlocProvider(
         create: (context) =>
             CategoryBloc(categoryRepository: categoryRepository),

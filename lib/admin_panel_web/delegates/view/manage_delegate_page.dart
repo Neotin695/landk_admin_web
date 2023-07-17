@@ -11,10 +11,11 @@ class DelegatesPage extends StatelessWidget {
       ));
   const DelegatesPage({super.key, required this.manageDelegatesRepository});
   final ManageDelegatesRepository manageDelegatesRepository;
+  
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (context) => manageDelegatesRepository,
+      value:  manageDelegatesRepository,
       child: BlocProvider(
         create: (context) => ManageDelegatesBloc(
             manageDelegatesRepository: manageDelegatesRepository),

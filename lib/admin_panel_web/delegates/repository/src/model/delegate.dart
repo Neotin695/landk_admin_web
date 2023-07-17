@@ -9,18 +9,20 @@ import '../../../../../models/model.dart';
 class Delegate extends Equatable {
   String id;
   String photoUrl;
+  String birthOfDate;
+  String vehicleNum;
   String name;
   IdCard idCard;
   String phoneNum;
   String email;
+  String token;
   bool active;
   bool acceptable;
   bool isEmailVerified;
-  AddressInfo location;
   bool available;
-  String birthOfDate;
-  String vehicleNum;
+  AddressInfo location;
   List<String> vehicleImages;
+
   Delegate({
     required this.id,
     required this.photoUrl,
@@ -28,6 +30,7 @@ class Delegate extends Equatable {
     required this.idCard,
     required this.phoneNum,
     required this.email,
+    required this.token,
     required this.active,
     required this.acceptable,
     required this.isEmailVerified,
@@ -45,6 +48,7 @@ class Delegate extends Equatable {
         idCard: IdCard.empty(),
         phoneNum: '',
         email: '',
+        token: '',
         acceptable: false,
         active: false,
         isEmailVerified: false,
@@ -66,6 +70,7 @@ class Delegate extends Equatable {
         active,
         isEmailVerified,
         location,
+        token,
         acceptable,
         available,
         birthOfDate,
@@ -83,6 +88,7 @@ class Delegate extends Equatable {
       'email': email,
       'acceptable': acceptable,
       'active': active,
+      'token': token,
       'isEmailVerified': isEmailVerified,
       'location': location.toMap(),
       'available': available,
@@ -100,6 +106,7 @@ class Delegate extends Equatable {
       idCard: IdCard.fromMap(map['idCard'] as Map<String, dynamic>),
       phoneNum: map['phoneNum'] as String,
       email: map['email'] as String,
+      token: map['token'] as String,
       acceptable: map['acceptable'] as bool,
       active: map['active'] as bool,
       isEmailVerified: map['isEmailVerified'] as bool,

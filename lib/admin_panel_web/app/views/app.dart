@@ -11,13 +11,10 @@ import '../../../core/language/lang.dart';
 import '../../auth/repository/authentication_repository.dart';
 import '../app.dart';
 
-
 class App extends StatelessWidget {
   const App({super.key, required this.authenticationRepository});
 
   final AuthenticationRepository authenticationRepository;
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +29,14 @@ class App extends StatelessWidget {
   }
 }
 
-class AppView extends StatelessWidget {
+class AppView extends StatefulWidget {
   const AppView({super.key});
 
+  @override
+  State<AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     return Sizer(

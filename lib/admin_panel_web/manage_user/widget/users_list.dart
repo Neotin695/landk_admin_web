@@ -70,15 +70,15 @@ class _CustomerListState extends State<CustomerList> {
               color: grey2,
               elevation: 2,
               child: ListTile(
+                contentPadding: const EdgeInsets.all(20),
                 leading: CachedNetworkImage(
                   imageUrl: customer.photoUrl,
                   placeholder: (context, url) => SvgPicture.asset(iPerson),
                   errorWidget: (context, url, error) {
                     return SizedBox(
-                      width: 3.w,
-                      height: 3.h,
-                      child: const Placeholder(),
-                    );
+                        width: 10.w,
+                        height: 10.h,
+                        child: SvgPicture.asset(iPerson));
                   },
                 ),
                 title: Row(

@@ -7,7 +7,8 @@ part 'dashboard_event.dart';
 part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardStatus> {
-  DashboardBloc({required this.dashboardRepository}) : super(DashboardStatus.initial) {
+  DashboardBloc({required this.dashboardRepository})
+      : super(DashboardStatus.initial) {
     on<AnalyseData>(_analyseData);
   }
 
@@ -15,6 +16,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardStatus> {
   Analysis analysis = Analysis.empty();
   FutureOr<void> _analyseData(AnalyseData event, emit) async {
     emit(DashboardStatus.loading);
-    analysis = await dashboardRepository.analyseData().then((value) => emit(DashboardStatus.success));
+    analysis = await dashboardRepository.analyseData();
+
+    if (analysis != Analysis.empty()) {
+      emit(DashboardStatus.success);
+    }
   }
 }

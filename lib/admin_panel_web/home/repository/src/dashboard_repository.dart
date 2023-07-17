@@ -19,21 +19,21 @@ class DashboardRepository implements _DashboardRepository {
     int orders = 0;
     int stors = 0;
 
-    // await _firestore.collection('customers').get().then((value) async {
-    //   customers = value.docs.length;
-    //   await _firestore.collection('delegates').get().then((value) async {
-    //     delegates = value.docs.length;
-    //     await _firestore.collection('products').get().then((value) async {
-    //       products = value.docs.length;
-    //       await _firestore.collection('stors').get().then((value) async {
-    //         stors = value.docs.length;
-    //         await _firestore.collection('orders').get().then((value) {
-    //           orders = value.docs.length;
-    //         });
-    //       });
-    //     });
-    //   });
-    // });
+    await _firestore.collection('customers').get().then((value) async {
+      customers = value.docs.length;
+      await _firestore.collection('delegates').get().then((value) async {
+        delegates = value.docs.length;
+        await _firestore.collection('products').get().then((value) async {
+          products = value.docs.length;
+          await _firestore.collection('stors').get().then((value) async {
+            stors = value.docs.length;
+            await _firestore.collection('orders').get().then((value) {
+              orders = value.docs.length;
+            });
+          });
+        });
+      });
+    });
 
     return Analysis(
       customerCount: customers,

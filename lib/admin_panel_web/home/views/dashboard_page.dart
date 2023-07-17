@@ -12,14 +12,17 @@ class DashboardPage extends StatelessWidget {
       ));
   const DashboardPage({super.key, required this.dashboardRepository});
   final DashboardRepository dashboardRepository;
+
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-        value: dashboardRepository,
-        child: BlocProvider(
-          create: (context) =>
-              DashboardBloc(dashboardRepository: dashboardRepository),
-          child: const DashboardView(),
-        ));
+      value: dashboardRepository,
+      child: BlocProvider(
+        create: (context) =>
+            DashboardBloc(dashboardRepository: dashboardRepository)
+              ..add(AnalyseData()),
+        child: const DashboardView(),
+      ),
+    );
   }
 }

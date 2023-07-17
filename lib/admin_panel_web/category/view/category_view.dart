@@ -15,20 +15,13 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: white,
-        title: Text(
-          AppLocalizations.of(context)!.categories,
-          style: TextStyle(color: black),
-        ),
-        centerTitle: true,
-      ),
+      appBar: customAppBar(context, AppLocalizations.of(context)!.categories),
       body: Column(
         children: [
           Card(
             color: grey1,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,28 +51,16 @@ class CategoryView extends StatelessWidget {
                 return Expanded(
                   child: GridView.count(
                     crossAxisCount: 4,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 2,
+                    crossAxisSpacing: 2,
                     children: context.read<CategoryBloc>().categories.map((e) {
                       return GestureDetector(
-                        onDoubleTap: () => context
+                        onTap: () => context
                             .read<CategoryBloc>()
                             .add(DeleteCategory(uid: e.id)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: e.imageUrl,
-                              placeholder: (context, url) => loadingWidget(),
-                            ),
-                            vSpace(1),
-                            Text(
-                              e.name,
-                              style: h6!.copyWith(
-                                fontSize: 5.sp,
-                              ),
-                            ),
-                          ],
+                        child: CachedNetworkImage(
+                          imageUrl: e.imageUrl,
+                          placeholder: (context, url) => loadingWidget(),
                         ),
                       );
                     }).toList(),
@@ -161,10 +142,11 @@ class _Actions extends StatelessWidget {
 class _UploadImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(),
+        side: const BorderSide(width: 1),
       ),
       child: Row(
         children: [
@@ -174,13 +156,10 @@ class _UploadImage extends StatelessWidget {
                 context.read<CategoryBloc>().add(PickImage());
               },
               style: ElevatedButton.styleFrom(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
-                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 backgroundColor: organge,
-                padding: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(20),
               ),
               child: Text(
                 AppLocalizations.of(context)!.uploadImage,
@@ -196,9 +175,6 @@ class _UploadImage extends StatelessWidget {
                     padding: const EdgeInsets.all(32),
                     decoration: BoxDecoration(
                       color: white,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
                     ),
                     child: Image.memory(context.read<CategoryBloc>().imageUrl!),
                   );
@@ -207,9 +183,6 @@ class _UploadImage extends StatelessWidget {
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
                     color: white,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
                   ),
                   child: const SizedBox(),
                 );
