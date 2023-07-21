@@ -1,3 +1,4 @@
+import 'package:admin_panel_web/core/services/common.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,16 +32,28 @@ class App extends StatelessWidget {
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
+  static void restartApp(BuildContext context) {
+    context.findAncestorStateOfType<_AppViewState>()?.restartApp();
+  }
 
   @override
   State<AppView> createState() => _AppViewState();
 }
 
 class _AppViewState extends State<AppView> {
+  Key key = UniqueKey();
+
+  void restartApp() {
+    setState(() {
+      key = UniqueKey();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) => MaterialApp(
+        key: key,
         debugShowCheckedModeBanner: false,
         home: FlowBuilder<AppStatus>(
           state: context.select((AppBloc bloc) => bloc.state.status),
@@ -48,12 +61,22 @@ class _AppViewState extends State<AppView> {
         ),
         theme: ThemeData(fontFamily: 'Tajawal'),
         supportedLocales: L10n.all,
+        locale: Locale(Common.prefs.getString('locale') ?? 'en'),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale!.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+          return supportedLocales.first;
+        },
         builder: responsiveFramework,
       ),
     );
