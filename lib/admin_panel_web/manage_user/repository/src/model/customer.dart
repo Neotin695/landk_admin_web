@@ -83,6 +83,6 @@ class Customer extends Equatable {
         phoneNum: map['phoneNum'] as String,
         isEmailVerified: map['isEmailVerified'] as bool,
         location: AddressInfo.fromMap(map['location'] as Map<String, dynamic>),
-        orders: List.from(map['orders'].map((e) => e)));
+        orders: List<String>.from(map['orders'].map((e) => e)));
   }
 }

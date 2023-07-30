@@ -40,9 +40,18 @@ class ToggleActiveDelegate extends ManageDelegatesEvent {
 
 class AccepteDelegate extends ManageDelegatesEvent {
   final String uid;
-  final bool state;
+  
   const AccepteDelegate({
-    required this.state,
+  
+    required this.uid,
+  });
+}
+
+class RejectDelegate extends ManageDelegatesEvent {
+  final String uid;
+  
+  const RejectDelegate({
+  
     required this.uid,
   });
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+
 import 'package:equatable/equatable.dart';
 
 import '../repository/manage_user_repository.dart';
@@ -23,7 +24,7 @@ class ManageUserBloc extends Bloc<ManageUserEvent, ManageUserState> {
   }
 
   final ManageUserRepository manageUserRepository;
-  late final StreamSubscription<List<Customer>> _streamSubscription;
+  late StreamSubscription<List<Customer>> _streamSubscription;
   List<Customer> customers = [];
   Customer customer = Customer.empty();
 
@@ -50,8 +51,8 @@ class ManageUserBloc extends Bloc<ManageUserEvent, ManageUserState> {
 
   FutureOr<void> _fetchCustomer(FetchCustomer event, emit) async {
     emit(ManageUserState(state: ManageUserStatus.loading));
-    customer = await manageUserRepository.fetchCustomer(event.uid).then(
-        (value) => emit(ManageUserState(state: ManageUserStatus.success)));
+    customer = await manageUserRepository.fetchCustomer(event.uid);
+    emit(ManageUserState(state: ManageUserStatus.success));
   }
 
   // ignore: library_private_types_in_public_api

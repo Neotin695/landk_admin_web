@@ -29,82 +29,110 @@ class _BannedListState extends State<BannedList> {
   Widget build(BuildContext context) {
     widget.delegates =
         widget.delegates.where((e) => e.active == false).toList();
-    return Column(
-      children: [
-        Card(
-          color: grey1,
-          elevation: 5,
-          child: ListTile(
-            leading: Text(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DataTable(
+        headingRowColor: MaterialStateProperty.all(grey1),
+        dataRowColor: MaterialStateProperty.all(grey2),
+        columns: [
+          DataColumn(
+            tooltip: 'profile photo',
+            label: Text(
               AppLocalizations.of(context)!.photo,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.name,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.email,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.phoneNum,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            trailing: Text(
-              AppLocalizations.of(context)!.status,
+          ),
+          DataColumn(
+            tooltip: 'display name of user',
+            label: Text(
+              AppLocalizations.of(context)!.name,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-        ListView(
-          shrinkWrap: true,
-          children: widget.delegates.map((customer) {
-            return Card(
-              color: grey2,
-              elevation: 2,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(20),
-                leading: CachedNetworkImage(
-                  imageUrl: customer.photoUrl,
-                  placeholder: (context, url) => SvgPicture.asset(iPerson),
-                  errorWidget: (context, url, error) {
-                    return SizedBox(
-                        width: 10.w,
-                        height: 10.h,
-                        child: SvgPicture.asset(iPerson));
-                  },
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(customer.name),
-                    Text(customer.email),
-                    Text(customer.phoneNum),
-                  ],
-                ),
-                trailing: Switch(
-                  value: customer.active,
-                  onChanged: (value) {
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      context.read<ManageDelegatesBloc>().add(
-                            ToggleActiveDelegate(
-                                state: value, uid: customer.id),
-                          );
-                    });
-                    setState(() {});
-                  },
-                ),
+          DataColumn(
+            tooltip: 'email of user',
+            label: Text(
+              AppLocalizations.of(context)!.email,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'phone number of user',
+            label: Text(
+              AppLocalizations.of(context)!.phoneNum,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'actions want to do',
+            label: Text(
+              AppLocalizations.of(context)!.actions,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: widget.delegates
+            .map(
+              (delegate) => DataRow(
+                cells: [
+                  DataCell(
+                    CachedNetworkImage(
+                      imageUrl: delegate.photoUrl,
+                      placeholder: (context, url) => SvgPicture.asset(iPerson),
+                      errorWidget: (context, url, error) {
+                        return SizedBox(
+                          height: 10.h,
+                          child: SvgPicture.asset(iPerson),
+                        );
+                      },
+                    ),
+                  ),
+                  DataCell(
+                    Text(delegate.name),
+                  ),
+                  DataCell(
+                    Text(delegate.email),
+                  ),
+                  DataCell(
+                    Text(delegate.phoneNum),
+                  ),
+                  DataCell(
+                    Row(
+                      children: [
+                        Switch(
+                          thumbColor: MaterialStateProperty.all(organge),
+                          overlayColor: MaterialStateProperty.all(organge45),
+                          focusColor: organge45,
+                          value: delegate.active,
+                          onChanged: (value) {
+                            WidgetsBinding.instance.addPostFrameCallback(
+                              (timeStamp) {
+                                context.read<ManageDelegatesBloc>().add(
+                                      ToggleActiveDelegate(
+                                        state: value,
+                                        uid: delegate.id,
+                                      ),
+                                    );
+                              },
+                            );
+                            setState(() {});
+                          },
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            );
-          }).toList(),
-        ),
-      ],
+            )
+            .toList(),
+      ),
     );
   }
 }

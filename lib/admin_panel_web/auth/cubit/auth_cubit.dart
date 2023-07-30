@@ -23,6 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void passwordChanged(String value) {
+    
     final password = Password.dirty(value);
     emit(
       state.copyWith(

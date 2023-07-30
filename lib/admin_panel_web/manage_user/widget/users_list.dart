@@ -30,82 +30,111 @@ class _CustomerListState extends State<CustomerList> {
   @override
   Widget build(BuildContext context) {
     widget.customers = widget.customers.where((e) => e.active == true).toList();
-    return Column(
-      children: [
-        Card(
-          color: grey1,
-          elevation: 5,
-          child: ListTile(
-            leading: Text(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DataTable(
+        headingRowColor: MaterialStateProperty.all(grey1),
+        dataRowColor: MaterialStateProperty.all(grey2),
+        columns: [
+          DataColumn(
+            tooltip: 'profile photo',
+            label: Text(
               AppLocalizations.of(context)!.photo,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.name,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.email,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.phoneNum,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            trailing: Text(
-              AppLocalizations.of(context)!.status,
+          ),
+          DataColumn(
+            tooltip: 'display name of user',
+            onSort: (index, state) {},
+            label: Text(
+              AppLocalizations.of(context)!.name,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-        ListView(
-          shrinkWrap: true,
-          children: widget.customers.map((customer) {
-            return Card(
-              color: grey2,
-              elevation: 2,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(20),
-                leading: CachedNetworkImage(
-                  imageUrl: customer.photoUrl,
-                  placeholder: (context, url) => SvgPicture.asset(iPerson),
-                  errorWidget: (context, url, error) {
-                    return SizedBox(
-                        width: 10.w,
-                        height: 10.h,
-                        child: SvgPicture.asset(iPerson));
-                  },
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
+          DataColumn(
+            tooltip: 'email of user',
+            label: Text(
+              AppLocalizations.of(context)!.email,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'phone number of user',
+            label: Text(
+              AppLocalizations.of(context)!.phoneNum,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'actions want to do',
+            label: Text(
+              AppLocalizations.of(context)!.actions,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: widget.customers
+            .map(
+              (customer) => DataRow(
+                cells: [
+                  DataCell(
+                    CachedNetworkImage(
+                      imageUrl: customer.photoUrl,
+                      placeholder: (context, url) => SvgPicture.asset(iPerson),
+                      errorWidget: (context, url, error) {
+                        return SizedBox(
+                          height: 10.h,
+                          child: SvgPicture.asset(iPerson),
+                        );
+                      },
+                    ),
+                  ),
+                  DataCell(
                     Text(customer.name),
+                  ),
+                  DataCell(
                     Text(customer.email),
+                  ),
+                  DataCell(
                     Text(customer.phoneNum),
-                  ],
-                ),
-                trailing: Switch(
-                  value: customer.active,
-                  onChanged: (value) {
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      context.read<ManageUserBloc>().add(
-                            ToggleActiveCustomer(
-                                state: value, uid: customer.id),
-                          );
-                    });
-                    setState(() {});
-                  },
-                ),
+                  ),
+                  DataCell(
+                    Row(
+                      children: [
+                        Switch(
+                          thumbColor: MaterialStateProperty.all(organge),
+                          overlayColor: MaterialStateProperty.all(organge45),
+                          trackColor: MaterialStateProperty.all(organge45),
+                          value: customer.active,
+                          onChanged: (value) {
+                            WidgetsBinding.instance.addPostFrameCallback(
+                              (timeStamp) {
+                                context.read<ManageUserBloc>().add(
+                                      ToggleActiveCustomer(
+                                        state: value,
+                                        uid: customer.id,
+                                      ),
+                                    );
+                              },
+                            );
+                            setState(() {});
+                          },
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            );
-          }).toList(),
-        ),
-      ],
+            )
+            .toList(),
+      ),
     );
   }
 }

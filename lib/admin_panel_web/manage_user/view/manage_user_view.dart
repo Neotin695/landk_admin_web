@@ -22,8 +22,8 @@ class _ManageUserViewState extends State<ManageUserView>
 
   @override
   void initState() {
-    _controller = TabController(length: 2, vsync: this);
     super.initState();
+    _controller = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -53,23 +53,24 @@ class _ManageUserViewState extends State<ManageUserView>
           ],
         ),
       ),
-      body: BlocListener<ManageUserBloc, ManageUserState>(
-        listener: (context, state) {},
-        child: SafeArea(
-          child: TabBarView(
-            controller: _controller,
-            children: [
-              CustomerList(
-                customers:
-                    context.select((ManageUserBloc value) => value.customers),
-              ),
-              BannedList(
-                customers:
-                    context.select((ManageUserBloc value) => value.customers),
-              ),
-            ],
-          ),
-        ),
+      body: BlocBuilder<ManageUserBloc, ManageUserState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: TabBarView(
+              controller: _controller,
+              children: [
+                CustomerList(
+                  customers:
+                      context.select((ManageUserBloc value) => value.customers),
+                ),
+                BannedList(
+                  customers:
+                      context.select((ManageUserBloc value) => value.customers),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

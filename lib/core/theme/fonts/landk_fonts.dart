@@ -14,4 +14,4 @@ TextStyle? h5 = TextStyle(
 TextStyle? h6 = TextStyle(
     fontSize: 3.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w400);
 TextStyle? btnFont = TextStyle(
-    fontSize: 5.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w300);
+    fontSize: 4.sp, fontFamily: 'Tajawal', fontWeight: FontWeight.w300);

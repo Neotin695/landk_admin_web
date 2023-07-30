@@ -31,7 +31,7 @@ class _BannerViewState extends State<BannerView> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.insertNewBanner,
-                    style: h4,
+                    style: h5,
                   ),
                   vSpace(2),
                   _Actions(),
@@ -39,14 +39,19 @@ class _BannerViewState extends State<BannerView> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Align(
-              child: Text(
-                AppLocalizations.of(context)!.banner,
-                style: h5,
-              ),
-            ),
+          BlocBuilder<BannerBloc, BannerState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: autoAlignTop(),
+                  child: Text(
+                    '${AppLocalizations.of(context)!.banner} (${context.read<BannerBloc>().banners.length})',
+                    style: h5,
+                  ),
+                ),
+              );
+            },
           ),
           BlocBuilder<BannerBloc, BannerState>(
             buildWhen: (previous, next) => previous != next,
@@ -54,16 +59,28 @@ class _BannerViewState extends State<BannerView> {
               if (state.status == BannerStatus.loadedData) {
                 return Expanded(
                   child: GridView.count(
-                    crossAxisCount: 4,
+                    crossAxisCount: 6,
                     mainAxisSpacing: 2,
                     crossAxisSpacing: 2,
                     children: context.read<BannerBloc>().banners.map(
                       (e) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: CachedNetworkImage(
-                            imageUrl: e.photoUrl,
-                            placeholder: (context, url) => loadingWidget(),
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: black,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10)),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              context
+                                  .read<BannerBloc>()
+                                  .add(DeleteBanner(uid: e.id));
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: e.photoUrl,
+                              placeholder: (context, url) => loadingWidget(),
+                            ),
                           ),
                         );
                       },
@@ -139,7 +156,8 @@ class _UploadImage extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 backgroundColor: organge,
-                padding: const EdgeInsets.all(40),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
               ),
               child: Text(
                 AppLocalizations.of(context)!.uploadImage,

@@ -1,5 +1,4 @@
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
-import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,91 +29,102 @@ class _NewDelegatesListState extends State<NewDelegatesList> {
   Widget build(BuildContext context) {
     widget.delegates =
         widget.delegates.where((e) => e.acceptable == false).toList();
-    return Column(
-      children: [
-        Card(
-          color: grey1,
-          elevation: 5,
-          child: ListTile(
-            leading: Text(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DataTable(
+        headingRowColor: MaterialStateProperty.all(grey1),
+        dataRowColor: MaterialStateProperty.all(grey2),
+        columns: [
+          DataColumn(
+            tooltip: 'profile photo',
+            label: Text(
               AppLocalizations.of(context)!.photo,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.name,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.email,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.phoneNum,
-                  style: h6!.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            trailing: Text(
-              AppLocalizations.of(context)!.status,
+          ),
+          DataColumn(
+            tooltip: 'display name of user',
+            label: Text(
+              AppLocalizations.of(context)!.name,
               style: h6!.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-        ListView(
-          shrinkWrap: true,
-          children: widget.delegates.map((delegate) {
-            return Card(
-              color: grey2,
-              elevation: 2,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(20),
-                leading: CachedNetworkImage(
-                  imageUrl: delegate.photoUrl,
-                  placeholder: (context, url) => SvgPicture.asset(iPerson),
-                  errorWidget: (context, url, error) {
-                    return SizedBox(
-                        width: 10.w,
-                        height: 10.h,
-                        child: SvgPicture.asset(iPerson));
-                  },
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(delegate.name),
-                    Text(delegate.email),
-                    Text(delegate.phoneNum),
-                  ],
-                ),
-                trailing:
-                    BlocBuilder<ManageDelegatesBloc, ManageDelegatesStatus>(
-                  builder: (context, state) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: organge,
-                          padding: const EdgeInsets.all(15)),
-                      onPressed: () {
-                        context.read<ManageDelegatesBloc>().add(
-                              AccepteDelegate(state: true, uid: delegate.id),
-                            );
+          DataColumn(
+            tooltip: 'email of user',
+            label: Text(
+              AppLocalizations.of(context)!.email,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'phone number of user',
+            label: Text(
+              AppLocalizations.of(context)!.phoneNum,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+          DataColumn(
+            tooltip: 'actions want to do',
+            label: Text(
+              AppLocalizations.of(context)!.actions,
+              style: h6!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+        rows: widget.delegates
+            .map(
+              (delegates) => DataRow(
+                cells: [
+                  DataCell(
+                    CachedNetworkImage(
+                      imageUrl: delegates.photoUrl,
+                      placeholder: (context, url) => SvgPicture.asset(iPerson),
+                      errorWidget: (context, url, error) {
+                        return SizedBox(
+                          height: 10.h,
+                          child: SvgPicture.asset(iPerson),
+                        );
                       },
-                      child: state == ManageDelegatesStatus.loading
-                          ? loadingWidget()
-                          : Text(
-                              AppLocalizations.of(context)!.accept,
-                              style: btnFont,
-                            ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                  DataCell(
+                    Text(delegates.name),
+                  ),
+                  DataCell(
+                    Text(delegates.email),
+                  ),
+                  DataCell(
+                    Text(delegates.phoneNum),
+                  ),
+                  DataCell(
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.delete,
+                            color: red,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context
+                                .read<ManageDelegatesBloc>()
+                                .add(AccepteDelegate(uid: delegates.id));
+                          },
+                          icon: Icon(
+                            Icons.check,
+                            color: green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-            );
-          }).toList(),
-        ),
-      ],
+            )
+            .toList(),
+      ),
     );
   }
 }

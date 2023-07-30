@@ -1,12 +1,11 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 import 'model/model.dart';
 
 abstract class _ManageDelegates {
-  Future<void> acceptDelegate(String id, bool state);
+  Future<void> acceptDelegate(String id);
+  Future<void> rejectDelegate(String id, String message);
   Future<void> toggleActiveDelegate(String id, bool state);
   Future<void> deleteDelegate(String id);
   Either<String, Stream<List<Delegate>>> fetchAllDelegates();
@@ -49,12 +48,12 @@ class ManageDelegatesRepository implements _ManageDelegates {
   Future<void> searchDelegate(String query) async {}
 
   @override
-  Future<void> acceptDelegate(String id, bool state) async {
+  Future<void> acceptDelegate(String id) async {
     try {
       await _fireStore
           .collection('delegates')
           .doc(id)
-          .update({'acceptable': state});
+          .update({'acceptable': true});
     } catch (e) {
       print(e);
     }
@@ -67,6 +66,18 @@ class ManageDelegatesRepository implements _ManageDelegates {
           .collection('delegates')
           .doc(id)
           .update({'active': state});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Future<void> rejectDelegate(String id, String message) async {
+    try {
+      await _fireStore
+          .collection('delegates')
+          .doc(id)
+          .update({'acceptable': false});
     } catch (e) {
       print(e);
     }

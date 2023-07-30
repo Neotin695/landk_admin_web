@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
@@ -36,6 +34,7 @@ class ManageUserRepository implements _ManageUser {
     try {
       return Right(_fireStore.collection('customers').snapshots().map(
         (event) {
+          //print(event.docs.map((e) => e.data()));
           return event.docs.map((e) => Customer.fromMap(e.data())).toList();
         },
       ));

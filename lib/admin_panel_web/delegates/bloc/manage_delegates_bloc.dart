@@ -17,11 +17,13 @@ class ManageDelegatesBloc
     on<FetchDelegate>(_fetchDelegate);
     on<ToggleActiveDelegate>(_toggleActiveDelegate);
     on<AccepteDelegate>(_accepteDelegate);
+    on<RejectDelegate>(_rejectDelegate);
     on<DeleteDelegate>(_deleteDelegate);
 
     manageDelegatesRepository.fetchAllDelegates().fold((l) => print(l), (r) {
       _streamSubscription = r.listen((event) {
-        add(_FetchAllDelegates(delegates: event));
+        delegates = event;
+        add(_FetchAllDelegates(delegates: delegates));
       });
     });
   }
@@ -42,29 +44,36 @@ class ManageDelegatesBloc
 
     await manageDelegatesRepository
         .toggleActiveDelegate(event.uid, event.state)
-        .then((value) =>
-            emit(ManageDelegatesStatus.success));
+        .then((value) => emit(ManageDelegatesStatus.success));
   }
 
   FutureOr<void> _accepteDelegate(AccepteDelegate event, emit) async {
-    emit( ManageDelegatesStatus.loading);
+    emit(ManageDelegatesStatus.loading);
 
-    await manageDelegatesRepository.acceptDelegate(event.uid, event.state).then(
-        (value) =>
-            emit(ManageDelegatesStatus.success));
+    await manageDelegatesRepository
+        .acceptDelegate(event.uid)
+        .then((value) => emit(ManageDelegatesStatus.success));
+  }
+
+  FutureOr<void> _rejectDelegate(RejectDelegate event, emit) async {
+    emit(ManageDelegatesStatus.loading);
+
+    await manageDelegatesRepository
+        .rejectDelegate(event.uid, 'you dont have any correct info')
+        .then((value) => emit(ManageDelegatesStatus.success));
   }
 
   FutureOr<void> _deleteDelegate(DeleteDelegate event, emit) async {
     emit(ManageDelegatesStatus.loading);
-    await manageDelegatesRepository.deleteDelegate(event.uid).then((value) =>
-        emit(ManageDelegatesStatus.success));
+    await manageDelegatesRepository
+        .deleteDelegate(event.uid)
+        .then((value) => emit(ManageDelegatesStatus.success));
   }
 
   FutureOr<void> _fetchDelegate(FetchDelegate event, emit) async {
     emit(ManageDelegatesStatus.loading);
-    delegate = await manageDelegatesRepository.fetchDelegate(event.uid).then(
-        (value) =>
-            emit(ManageDelegatesStatus.success));
+    delegate = await manageDelegatesRepository.fetchDelegate(event.uid);
+    emit(ManageDelegatesStatus.success);
   }
 
   // ignore: library_private_types_in_public_api

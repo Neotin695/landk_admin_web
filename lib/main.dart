@@ -23,6 +23,8 @@ void main() async {
   Common.prefs.getString('locale') == null
       ? await Common.prefs.setString('locale', 'en')
       : null;
+
+      
   final authenticationRepository = AuthenticationRepository();
 
   await authenticationRepository.user.first;
