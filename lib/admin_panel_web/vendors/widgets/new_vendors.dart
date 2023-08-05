@@ -1,3 +1,5 @@
+import 'package:admin_panel_web/admin_panel_web/vendors/bloc/vendors_bloc.dart';
+import 'package:admin_panel_web/admin_panel_web/vendors/vendors_repository/src/models/model.dart';
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +10,16 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/constances/media_const.dart';
 import '../../../core/theme/fonts/landk_fonts.dart';
-import '../bloc/manage_user_bloc.dart';
-import '../repository/manage_user_repository.dart';
 
 // ignore: must_be_immutable
-class BannedList extends StatefulWidget {
-  BannedList({super.key, required this.customers});
-  List<Customer> customers;
+class NewVendors extends StatefulWidget {
+  NewVendors({super.key, required this.vendors});
+  List<Vendor> vendors;
   @override
-  State<BannedList> createState() => _BannedListState();
+  State<NewVendors> createState() => _NewVendorsState();
 }
 
-class _BannedListState extends State<BannedList> {
+class _NewVendorsState extends State<NewVendors> {
   @override
   void initState() {
     super.initState();
@@ -27,8 +27,8 @@ class _BannedListState extends State<BannedList> {
 
   @override
   Widget build(BuildContext context) {
-    widget.customers =
-        widget.customers.where((e) => e.active == false).toList();
+    widget.vendors =
+        widget.vendors.where((e) => e.acceptable == false).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -71,13 +71,13 @@ class _BannedListState extends State<BannedList> {
             ),
           ),
         ],
-        rows: widget.customers
+        rows: widget.vendors
             .map(
-              (customer) => DataRow(
+              (delegates) => DataRow(
                 cells: [
                   DataCell(
                     CachedNetworkImage(
-                      imageUrl: customer.photoUrl,
+                      imageUrl: delegates.logoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
                         return SizedBox(
@@ -88,42 +88,33 @@ class _BannedListState extends State<BannedList> {
                     ),
                   ),
                   DataCell(
-                    Text(customer.name),
+                    Text(delegates.storName),
                   ),
                   DataCell(
-                    Text(customer.email),
+                    Text(delegates.onwer.email),
                   ),
                   DataCell(
-                    Text(customer.phoneNum),
+                    Text(delegates.onwer.email),
                   ),
                   DataCell(
                     Row(
                       children: [
-                        Switch(
-                          thumbColor: MaterialStateProperty.all(organge),
-                          overlayColor: MaterialStateProperty.all(organge45),
-                          trackColor: MaterialStateProperty.all(organge45),
-                          inactiveThumbColor: organge82,
-                          value: customer.active,
-                          onChanged: (value) {
-                            WidgetsBinding.instance.addPostFrameCallback(
-                              (timeStamp) {
-                                context.read<ManageUserBloc>().add(
-                                      ToggleActiveCustomer(
-                                        state: value,
-                                        uid: customer.id,
-                                      ),
-                                    );
-                              },
-                            );
-                            setState(() {});
-                          },
-                        ),
                         IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.delete,
                             color: red,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context
+                                .read<VendorsBloc>()
+                                .add(AcceptVendor(id: delegates.id));
+                          },
+                          icon: Icon(
+                            Icons.check,
+                            color: green,
                           ),
                         ),
                         IconButton(

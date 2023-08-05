@@ -65,9 +65,8 @@ class _BannerViewState extends State<BannerView> {
                     children: context.read<BannerBloc>().banners.map(
                       (e) {
                         return Container(
-                          decoration: BoxDecoration(
-                            color: black,
-                            borderRadius: const BorderRadius.only(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
                                 bottomLeft: Radius.circular(10)),
                           ),

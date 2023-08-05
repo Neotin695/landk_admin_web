@@ -117,6 +117,10 @@ class _NewDelegatesListState extends State<NewDelegatesList> {
                             color: green,
                           ),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset('assets/icons/eye.svg')
+                        ),
                       ],
                     ),
                   )

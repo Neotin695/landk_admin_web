@@ -4,11 +4,11 @@ import 'models/model.dart';
 
 abstract class _VendorRepository {
   Future<void> acceptVendor(String id);
-  Future<void> rejectVendor(String id, String message);
+  Future<void> rejectVendor(String id);
   Future<void> deleteVendor(String id);
-  Future<void> fetchVendor(String id);
-  Future<void> toggleActiveVendor(String id, bool state);
-  Stream<Vendor> fetchVendors();
+  Stream<Vendor> fetchVendor(String id);
+  Future<void> toggleVendorState(String id, bool state);
+  Stream<List<Vendor>> fetchVendors();
 }
 
 class VendorsRepository implements _VendorRepository {
@@ -16,38 +16,38 @@ class VendorsRepository implements _VendorRepository {
   VendorsRepository() : _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<void> acceptVendor(String id) {
-    // TODO: implement acceptVendor
-    throw UnimplementedError();
+  Future<void> acceptVendor(String id) async {
+    await _firestore.collection('vendors').doc(id).update({'acceptable': true});
   }
 
   @override
-  Future<void> deleteVendor(String id) {
-    // TODO: implement deleteVendor
-    throw UnimplementedError();
+  Future<void> deleteVendor(String id) async {
+    await _firestore.collection('vendors').doc(id).delete();
   }
 
   @override
-  Future<void> fetchVendor(String id) {
-    // TODO: implement fetchVendor
-    throw UnimplementedError();
+  Stream<Vendor> fetchVendor(String id) {
+    return _firestore.collection('vendors').doc(id).snapshots().map((event) {
+      return Vendor.fromMap(event.data()!);
+    });
   }
 
   @override
-  Stream<Vendor> fetchVendors() {
-    // TODO: implement fetchVendors
-    throw UnimplementedError();
+  Stream<List<Vendor>> fetchVendors() {
+    return _firestore.collection('vendors').snapshots().map((event) {
+      return event.docs.map((e) => Vendor.fromMap(e.data())).toList();
+    });
   }
 
   @override
-  Future<void> rejectVendor(String id, String message) {
-    // TODO: implement rejectVendor
-    throw UnimplementedError();
+  Future<void> rejectVendor(
+    String id,
+  ) async {
+    await _firestore.collection('vendors').doc(id).delete();
   }
 
   @override
-  Future<void> toggleActiveVendor(String id, bool state) {
-    // TODO: implement toggleActiveVendor
-    throw UnimplementedError();
+  Future<void> toggleVendorState(String id, bool state) async {
+    await _firestore.collection('vendors').doc(id).update({'statuc': state});
   }
 }

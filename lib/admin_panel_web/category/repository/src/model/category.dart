@@ -1,32 +1,52 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
 class Category extends Equatable {
   String id;
   String imageUrl;
-  String name;
+  String nameEn;
+  String nameAr;
+
   Category({
     required this.id,
     required this.imageUrl,
-    required this.name
+    required this.nameEn,
+    required this.nameAr,
   });
 
+  static Category empty() => Category(
+        id: '',
+        imageUrl: '',
+        nameEn: '',
+        nameAr: '',
+      );
   @override
-  List<Object?> get props => [id, imageUrl,name];
+  List<Object?> get props => [
+        id,
+        imageUrl,
+        nameEn,
+        nameAr,
+      ];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'name': name,
-      'photoUrl': imageUrl,
+      'imageUrl': imageUrl,
+      'nameEn': nameEn,
+      'nameAr': nameAr,
     };
   }
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
       id: map['id'] as String,
-      name: map['name'] as String,
-      imageUrl: map['photoUrl'] as String,
+      imageUrl: map['imageUrl'] as String,
+      nameEn: map['nameEn'] as String,
+      nameAr: map['nameAr'] as String,
     );
   }
 }

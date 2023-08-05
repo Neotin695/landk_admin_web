@@ -128,6 +128,10 @@ class _DelegatesListState extends State<DelegatesList> {
                             color: red,
                           ),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset('assets/icons/eye.svg')
+                        ),
                       ],
                     ),
                   )

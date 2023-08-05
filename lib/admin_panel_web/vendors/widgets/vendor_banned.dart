@@ -1,3 +1,5 @@
+import 'package:admin_panel_web/admin_panel_web/vendors/bloc/vendors_bloc.dart';
+import 'package:admin_panel_web/admin_panel_web/vendors/vendors_repository/src/models/model.dart';
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +10,16 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/constances/media_const.dart';
 import '../../../core/theme/fonts/landk_fonts.dart';
-import '../bloc/manage_user_bloc.dart';
-import '../repository/manage_user_repository.dart';
 
 // ignore: must_be_immutable
-class BannedList extends StatefulWidget {
-  BannedList({super.key, required this.customers});
-  List<Customer> customers;
+class VendorBanned extends StatefulWidget {
+  VendorBanned({super.key, required this.vendors});
+  List<Vendor> vendors;
   @override
-  State<BannedList> createState() => _BannedListState();
+  State<VendorBanned> createState() => _VendorBannedState();
 }
 
-class _BannedListState extends State<BannedList> {
+class _VendorBannedState extends State<VendorBanned> {
   @override
   void initState() {
     super.initState();
@@ -27,8 +27,8 @@ class _BannedListState extends State<BannedList> {
 
   @override
   Widget build(BuildContext context) {
-    widget.customers =
-        widget.customers.where((e) => e.active == false).toList();
+    widget.vendors =
+        widget.vendors.where((e) => e.status == false).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -71,13 +71,13 @@ class _BannedListState extends State<BannedList> {
             ),
           ),
         ],
-        rows: widget.customers
+        rows: widget.vendors
             .map(
               (customer) => DataRow(
                 cells: [
                   DataCell(
                     CachedNetworkImage(
-                      imageUrl: customer.photoUrl,
+                      imageUrl: customer.logoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
                         return SizedBox(
@@ -88,13 +88,13 @@ class _BannedListState extends State<BannedList> {
                     ),
                   ),
                   DataCell(
-                    Text(customer.name),
+                    Text(customer.storName),
                   ),
                   DataCell(
-                    Text(customer.email),
+                    Text(customer.onwer.email),
                   ),
                   DataCell(
-                    Text(customer.phoneNum),
+                    Text(customer.onwer.phoneNum),
                   ),
                   DataCell(
                     Row(
@@ -104,14 +104,14 @@ class _BannedListState extends State<BannedList> {
                           overlayColor: MaterialStateProperty.all(organge45),
                           trackColor: MaterialStateProperty.all(organge45),
                           inactiveThumbColor: organge82,
-                          value: customer.active,
+                          value: customer.status,
                           onChanged: (value) {
                             WidgetsBinding.instance.addPostFrameCallback(
                               (timeStamp) {
-                                context.read<ManageUserBloc>().add(
-                                      ToggleActiveCustomer(
+                                context.read<VendorsBloc>().add(
+                                      ToggleVendorState(
                                         state: value,
-                                        uid: customer.id,
+                                        id: customer.id,
                                       ),
                                     );
                               },

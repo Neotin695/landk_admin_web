@@ -27,7 +27,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
   final CategoryRepository categoryRepository;
   late final StreamSubscription<List<Category>> _streamSubscription;
   List<Category> categories = [];
-  final TextEditingController name = TextEditingController();
+  final TextEditingController nameAr = TextEditingController();
+  final TextEditingController nameEn = TextEditingController();
 
   Uint8List? imageUrl;
 
@@ -42,8 +43,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
 
   FutureOr<void> _deleteCategory(DeleteCategory event, emit) async {
     emit(const CategoryState(status: CategoryStatus.loadingData));
-    await categoryRepository.deleteCategory(event.uid).then(
-        (value) => emit(const CategoryState(status: CategoryStatus.loadedData)));
+    await categoryRepository.deleteCategory(event.uid).then((value) =>
+        emit(const CategoryState(status: CategoryStatus.loadedData)));
   }
 
   @override
@@ -54,14 +55,15 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
 
   FutureOr<void> _insertCategory(InsertCategory event, emit) async {
     emit(const CategoryState(status: CategoryStatus.loading));
-    if (name.text.isNotEmpty) {
+    if (nameAr.text.isNotEmpty && nameEn.text.isNotEmpty) {
       if (imageUrl != null) {
         await categoryRepository
-            .insertCategory(imageUrl!, name.text)
+            .insertCategory(imageUrl!, nameAr.text, nameEn.text)
             .then((value) {
           imageUrl = null;
 
-          name.clear();
+          nameAr.clear();
+          nameEn.clear();
           emit(const CategoryState(status: CategoryStatus.pickLoading));
           emit(const CategoryState(status: CategoryStatus.success));
         });
@@ -71,7 +73,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
     } else {
       emit(const CategoryState(status: CategoryStatus.failure));
     }
-      emit(const CategoryState(status: CategoryStatus.loadedData));
+    emit(const CategoryState(status: CategoryStatus.loadedData));
   }
 
   FutureOr<void> _fetchAllCategorys(_FethcAllCategory event, emit) {
@@ -79,8 +81,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState>
     categories = event.categories;
     if (categories.isNotEmpty) {
       emit(const CategoryState(status: CategoryStatus.loadedData));
-    }else{
-       emit(const CategoryState(status: CategoryStatus.initial));
+    } else {
+      emit(const CategoryState(status: CategoryStatus.initial));
     }
   }
 }

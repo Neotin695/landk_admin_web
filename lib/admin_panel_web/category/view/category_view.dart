@@ -1,16 +1,33 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../core/language/lang.dart';
-import 'package:sizer/sizer.dart';
-
+import '../../../core/shared/landk_tab.dart';
 import '../bloc/category_bloc.dart';
+import '../widgets/category_list.dart';
 
-class CategoryView extends StatelessWidget {
+class CategoryView extends StatefulWidget {
   const CategoryView({super.key});
+
+  @override
+  State<CategoryView> createState() => _CategoryViewState();
+}
+
+class _CategoryViewState extends State<CategoryView>
+    with TickerProviderStateMixin {
+  late final TabController _controller;
+
+  @override
+  void initState() {
+    _controller = TabController(length: 2, vsync: this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,104 +35,99 @@ class CategoryView extends StatelessWidget {
       appBar: customAppBar(context, AppLocalizations.of(context)!.categories),
       body: Column(
         children: [
+          vSpace(1),
+          Align(
+            alignment: autoAlignTop(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                AppLocalizations.of(context)!.insertNewCategory,
+                style: h5,
+              ),
+            ),
+          ),
+          vSpace(2),
           Card(
-            color: grey1,
+            color: white,
+            elevation: 5,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    AppLocalizations.of(context)!.insertNewCategory,
-                    style: h5,
+                  landkTab(),
+                  _Actions(
+                    controller: _controller,
                   ),
-                  vSpace(2),
-                  _Actions(),
                 ],
               ),
             ),
           ),
-          BlocBuilder<CategoryBloc, CategoryState>(
-            builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: autoAlignTop(),
-                  child: Text(
-                    '${AppLocalizations.of(context)!.categories} (${context.read<CategoryBloc>().categories.length})',
-                    style: h5,
-                  ),
-                ),
-              );
-            },
-          ),
-          BlocBuilder<CategoryBloc, CategoryState>(
-            builder: (context, state) {
-              if (state.status == CategoryStatus.loadedData) {
-                return Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 6,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                    children: context.read<CategoryBloc>().categories.map((e) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: black,
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
-                        ),
-                        child: GestureDetector(
-                          onTap: () => context
-                              .read<CategoryBloc>()
-                              .add(DeleteCategory(uid: e.id)),
-                          child: CachedNetworkImage(
-                            imageUrl: e.imageUrl,
-                            placeholder: (context, url) => loadingWidget(),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                );
-              } else if (state.status == CategoryStatus.loadingData) {
-                return loadingWidget();
-              } else {
-                return empty();
-              }
-            },
-          )
+          const _Title(),
+          const CategoryList()
         ],
       ),
+    );
+  }
+
+  Widget landkTab() {
+    return LandkTab(
+      controller: _controller,
+      tabs: const [
+        Tab(
+          text: 'English',
+        ),
+        Tab(
+          text: 'Arabic - العربية (AR)',
+        ),
+      ],
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CategoryBloc, CategoryState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Align(
+            alignment: autoAlignTop(),
+            child: Text(
+              '${AppLocalizations.of(context)!.categories} (${context.read<CategoryBloc>().categories.length})',
+              style: h5,
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
 class _Actions extends StatelessWidget {
+  final TabController controller;
+  const _Actions({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         hSpace(5),
-        Expanded(
-          child: Container(
-            width: 15.w,
-            height: 10.h,
-            decoration: BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(),
-            ),
-            child: Center(
-              child: TextField(
-                controller: context.read<CategoryBloc>().name,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.typeCategoryName,
-                    border: InputBorder.none),
-              ),
-            ),
+        SizedBox(
+          width: 20.w,
+          height: 10.h,
+          child: TabBarView(
+            controller: controller,
+            children: [
+              _inputCategory(context, context.read<CategoryBloc>().nameEn),
+              _inputCategory(context, context.read<CategoryBloc>().nameAr),
+            ],
           ),
         ),
         hSpace(5),
@@ -147,6 +159,27 @@ class _Actions extends StatelessWidget {
         ),
         hSpace(5),
       ],
+    );
+  }
+
+  Widget _inputCategory(BuildContext context, TextEditingController cn) {
+    return Container(
+      width: 15.w,
+      height: 10.h,
+      decoration: BoxDecoration(
+        color: white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(),
+      ),
+      child: Center(
+        child: TextField(
+          controller: cn,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.typeCategoryName,
+              border: InputBorder.none),
+        ),
+      ),
     );
   }
 }

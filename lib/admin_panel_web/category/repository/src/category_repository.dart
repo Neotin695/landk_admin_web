@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'model/category.dart';
 
 abstract class _CategoryRepository {
-  Future<TaskState> insertCategory(Uint8List url, String name);
+  Future<TaskState> insertCategory(Uint8List url, String nameAr, String nameEn);
   Future<void> deleteCategory(String id);
   Stream<List<Category>> fetchAllCategory();
 }
@@ -33,21 +33,23 @@ class CategoryRepository implements _CategoryRepository {
   }
 
   @override
-  Future<TaskState> insertCategory(Uint8List url, String name) async {
+  Future<TaskState> insertCategory(
+      Uint8List url, String nameAr, String nameEn) async {
     final String docId = _firestore.collection('category').doc().id;
 
     try {
       final metadata = SettableMetadata(contentType: 'image/jpeg');
       final snapshot = await _firebaseStorage
           .ref('category')
-          .child('$name.jpeg')
+          .child('$nameEn.jpeg')
           .putData(url, metadata);
       if (snapshot.state == TaskState.success) {
         await _firestore.collection('category').doc(docId).set(Category(
-                id: docId,
-                imageUrl: await snapshot.ref.getDownloadURL(),
-                name: name)
-            .toMap());
+              id: docId,
+              imageUrl: await snapshot.ref.getDownloadURL(),
+              nameAr: nameAr,
+              nameEn: nameEn,
+            ).toMap());
         return TaskState.success;
       } else if (snapshot.state == TaskState.running) {
         return TaskState.running;

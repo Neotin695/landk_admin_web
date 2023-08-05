@@ -3,6 +3,7 @@ import 'package:admin_panel_web/admin_panel_web/settings/widgets/general_setting
 import 'package:admin_panel_web/admin_panel_web/settings/widgets/my_account_view.dart';
 import 'package:admin_panel_web/core/language/lang.dart';
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
+import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatefulWidget {
@@ -17,8 +18,8 @@ class _SettingsViewState extends State<SettingsView> {
   final List<bool> isSelected = [true, false, false];
   final List<Widget> pages = [
     const GeneralSettings(),
-    const AboutCompany(),
     const MyAccount(),
+    const AboutCompany(),
   ];
 
   @override
@@ -55,7 +56,10 @@ class _SettingsViewState extends State<SettingsView> {
   Padding btnItem(BuildContext context, title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      child: Text(title),
+      child: Text(
+        title,
+        style: h6!.copyWith(fontWeight: FontWeight.bold),
+      ),
     );
   }
 

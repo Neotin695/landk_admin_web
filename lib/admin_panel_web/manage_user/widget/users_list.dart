@@ -127,6 +127,10 @@ class _CustomerListState extends State<CustomerList> {
                             color: red,
                           ),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset('assets/icons/eye.svg')
+                        ),
                       ],
                     ),
                   )

@@ -50,15 +50,17 @@ class BannerRepository implements _BannerRepository {
           .putData(url, metadata);
 
       if (snapshot.state == TaskState.success) {
-        await _firestore.collection('banners').doc(docId).set(
-            Banner(id: docId, photoUrl: await snapshot.ref.getDownloadURL())
-                .toMap());
+        await _firestore.collection('banners').doc(docId).set(Banner(
+              id: docId,
+              photoUrl: await snapshot.ref.getDownloadURL(),
+              createdDate: FieldValue.serverTimestamp(),
+              updatedDate: FieldValue.serverTimestamp(),
+            ).toMap());
         return TaskState.success;
       } else if (snapshot.state == TaskState.running) {
         return TaskState.running;
       } else if (snapshot.state == TaskState.canceled) {
         print('banner error');
-
         return TaskState.canceled;
       } else {
         return TaskState.error;

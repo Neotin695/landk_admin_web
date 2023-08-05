@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../bloc/manage_user_bloc.dart';
-import '../repository/manage_user_repository.dart';
-import 'manage_user_view.dart';
+import '../repository/src/manage_user_repository.dart';
 
 class ManageUserPage extends StatelessWidget {
   static Page page() => MaterialPage(
@@ -11,6 +11,7 @@ class ManageUserPage extends StatelessWidget {
       ));
   const ManageUserPage({super.key, required this.manageUserRepository});
   final ManageUserRepository manageUserRepository;
+
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
@@ -18,10 +19,8 @@ class ManageUserPage extends StatelessWidget {
       child: BlocProvider(
         create: (context) =>
             ManageUserBloc(manageUserRepository: manageUserRepository),
-        child: const ManageUserView(),
+        child: Container(),
       ),
     );
   }
-
-  
 }

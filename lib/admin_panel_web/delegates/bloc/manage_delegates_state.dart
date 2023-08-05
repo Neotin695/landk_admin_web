@@ -6,6 +6,3 @@ enum ManageDelegatesStatus {
   loading,
   initial,
 }
-
-// ignore: must_be_immutable
-
