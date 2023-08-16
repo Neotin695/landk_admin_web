@@ -1,85 +1,117 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
-import 'package:admin_panel_web/admin_panel_web/category/repository/category_repository.dart';
-import 'package:admin_panel_web/admin_panel_web/product/product_repository/src/model/product.dart';
-import 'package:admin_panel_web/admin_panel_web/vendors/vendors_repository/src/models/onwer.dart';
-import 'package:admin_panel_web/models/address_info.dart';
-import 'package:admin_panel_web/models/id_card.dart';
+import '../../../../../models/address_info.dart';
+import 'onwer.dart';
 
-class Vendor extends Equatable {
+class Store extends Equatable {
   final String id;
   final Onwer onwer;
-  final String storName;
+  final String name;
+  final bool active;
+  final String category;
   final String logoUrl;
-  final IdCard idCard;
-  final AddressInfo location;
-  final Category category;
-  final List<Product> products;
-  final bool status;
   final bool acceptable;
-  const Vendor({
-    required this.id,
-    required this.onwer,
-    required this.storName,
-    required this.logoUrl,
-    required this.idCard,
-    required this.location,
-    required this.category,
-    required this.status,
-    required this.products,
-    required this.acceptable,
-  });
+  final String coverUrl;
+  final List<String> products;
+  final AddressInfo addressInfo;
+  final List<String> reviews;
+  const Store(
+      {required this.id,
+      required this.onwer,
+      required this.active,
+      required this.category,
+      required this.logoUrl,
+      required this.name,
+      required this.coverUrl,
+      required this.acceptable,
+      required this.products,
+      required this.addressInfo,
+      required this.reviews});
 
-  static Vendor empty() => Vendor(
-      id: '',
-      onwer: Onwer.empty(),
-      storName: '',
-      status: false,
-      logoUrl: '',
-      idCard: IdCard.empty(),
-      location: AddressInfo.empty(),
-      category: Category.empty(),
-      acceptable: false,
-      products: const []);
+  static Store empty() => Store(
+        id: '',
+        onwer: Onwer.empty(),
+        active: false,
+        category: '',
+        name: '',
+        acceptable: false,
+        logoUrl: '',
+        coverUrl: '',
+        products: const [],
+        addressInfo: AddressInfo.empty(),
+        reviews: const [],
+      );
 
   @override
-  List<Object?> get props =>
-      [id, onwer, storName, logoUrl, idCard, location, category, products];
+  List<Object?> get props => [
+        id,
+        onwer,
+        active,
+        acceptable,
+        category,
+        name,
+        logoUrl,
+        coverUrl,
+        products,
+        addressInfo,
+        reviews
+      ];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
       'onwer': onwer.toMap(),
-      'storName': storName,
-      'status': status,
+      'active': active,
+      'category': category,
       'logoUrl': logoUrl,
       'acceptable': acceptable,
-      'idCard': idCard.toMap(),
-      'location': location.toMap(),
-      'category': category.toMap(),
-      'products': products.map((x) => x.toMap()).toList(),
+      'coverUrl': coverUrl,
+      'name': name,
+      'products': products,
+      'addressInfo': addressInfo.toMap(),
+      'reviews': reviews,
     };
   }
 
-  factory Vendor.fromMap(Map<String, dynamic> map) {
-    return Vendor(
+  factory Store.fromMap(Map<String, dynamic> map) {
+    return Store(
       id: map['id'] as String,
       onwer: Onwer.fromMap(map['onwer'] as Map<String, dynamic>),
-      storName: map['storName'] as String,
-      status: map['status'] as bool,
-      acceptable: map['acceptable'] as bool,
+      active: map['active'] as bool,
+      category: map['category'] as String,
       logoUrl: map['logoUrl'] as String,
-      idCard: IdCard.fromMap(map['idCard'] as Map<String, dynamic>),
-      location: AddressInfo.fromMap(map['location'] as Map<String, dynamic>),
-      category: Category.fromMap(map['category'] as Map<String, dynamic>),
-      products: List<Product>.from(
-        (map['products'] as List<int>).map<Product>(
-          (x) => Product.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      acceptable: map['acceptable'] as bool,
+      coverUrl: map['coverUrl'] as String,
+      name: map['name'] as String,
+      products: List<String>.from((map['products'].map((e) => e))),
+      addressInfo:
+          AddressInfo.fromMap(map['addressInfo'] as Map<String, dynamic>),
+      reviews: List<String>.from(map['reviews'].map((e) => e)),
     );
+  }
+  Store copyWith(
+      {String? id,
+      Onwer? onwer,
+      bool? active,
+      String? category,
+      String? logoUrl,
+      String? coverUrl,
+      String? name,
+      bool? acceptable,
+      List<String>? products,
+      AddressInfo? addressInfo,
+      List<String>? reviews}) {
+    return Store(
+        id: id ?? this.id,
+        onwer: onwer ?? this.onwer,
+        active: active ?? this.active,
+        category: category ?? this.category,
+        logoUrl: logoUrl ?? this.logoUrl,
+        name: name ?? this.name,
+        coverUrl: coverUrl ?? this.coverUrl,
+        acceptable: acceptable ?? this.acceptable,
+        products: products ?? this.products,
+        addressInfo: addressInfo ?? this.addressInfo,
+        reviews: reviews ?? this.reviews);
   }
 }

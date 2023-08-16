@@ -9,14 +9,14 @@ abstract class VendorsEvent extends Equatable {
 }
 
 class _FetchAllVendors extends VendorsEvent {
-  final List<Vendor> vendors;
+  final List<Store> vendors;
   const _FetchAllVendors({
     required this.vendors,
   });
 }
 
 class FetchOneVendor extends VendorsEvent {
-  final Vendor vendor;
+  final Store vendor;
   const FetchOneVendor({
     required this.vendor,
   });

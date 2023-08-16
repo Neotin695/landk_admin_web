@@ -18,20 +18,23 @@ class VendorsBloc extends Bloc<VendorsEvent, VendorsState> {
     _subscription = vendorsRepository.fetchVendors().listen((event) {
       add(_FetchAllVendors(vendors: event));
     });
+    _subscription.onError((err) {
+      print(err);
+    });
   }
 
   FutureOr<void> _fetchOneVendor(FetchOneVendor event, emit) {
     emit(VendorsState.loading);
     vendor = event.vendor;
-    if (vendor != Vendor.empty()) {
+    if (vendor != Store.empty()) {
       emit(VendorsState.success);
     }
   }
 
   final VendorsRepository vendorsRepository;
-  List<Vendor> vendors = [];
-  Vendor vendor = Vendor.empty();
-  late final StreamSubscription<List<Vendor>> _subscription;
+  List<Store> vendors = [];
+  Store vendor = Store.empty();
+  late final StreamSubscription<List<Store>> _subscription;
 
   FutureOr<void> _toggleVendorState(ToggleVendorState event, emit) async {
     await vendorsRepository.toggleVendorState(event.id, event.state);

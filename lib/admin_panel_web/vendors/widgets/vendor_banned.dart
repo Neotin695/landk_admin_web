@@ -14,7 +14,7 @@ import '../../../core/theme/fonts/landk_fonts.dart';
 // ignore: must_be_immutable
 class VendorBanned extends StatefulWidget {
   VendorBanned({super.key, required this.vendors});
-  List<Vendor> vendors;
+  List<Store> vendors;
   @override
   State<VendorBanned> createState() => _VendorBannedState();
 }
@@ -27,8 +27,9 @@ class _VendorBannedState extends State<VendorBanned> {
 
   @override
   Widget build(BuildContext context) {
-    widget.vendors =
-        widget.vendors.where((e) => e.status == false).toList();
+    widget.vendors = widget.vendors
+        .where((e) => e.active == false && e.acceptable == true)
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -78,6 +79,7 @@ class _VendorBannedState extends State<VendorBanned> {
                   DataCell(
                     CachedNetworkImage(
                       imageUrl: customer.logoUrl,
+                      width: 4.w,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
                         return SizedBox(
@@ -88,7 +90,7 @@ class _VendorBannedState extends State<VendorBanned> {
                     ),
                   ),
                   DataCell(
-                    Text(customer.storName),
+                    Text(customer.name),
                   ),
                   DataCell(
                     Text(customer.onwer.email),
@@ -104,7 +106,7 @@ class _VendorBannedState extends State<VendorBanned> {
                           overlayColor: MaterialStateProperty.all(organge45),
                           trackColor: MaterialStateProperty.all(organge45),
                           inactiveThumbColor: organge82,
-                          value: customer.status,
+                          value: customer.active,
                           onChanged: (value) {
                             WidgetsBinding.instance.addPostFrameCallback(
                               (timeStamp) {

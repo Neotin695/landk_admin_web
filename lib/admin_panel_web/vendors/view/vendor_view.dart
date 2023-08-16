@@ -32,7 +32,7 @@ class _VendorViewState extends State<VendorView> with TickerProviderStateMixin {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context)!.users,
+          AppLocalizations.of(context)!.vendors,
           style: TextStyle(color: black),
         ),
         backgroundColor: white,
@@ -45,7 +45,7 @@ class _VendorViewState extends State<VendorView> with TickerProviderStateMixin {
           controller: _controller,
           tabs: [
             Tab(
-              text: AppLocalizations.of(context)!.users,
+              text: AppLocalizations.of(context)!.vendors,
             ),
             Tab(
               text: AppLocalizations.of(context)!.banned,

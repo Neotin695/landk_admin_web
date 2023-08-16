@@ -14,7 +14,7 @@ import '../../../core/theme/fonts/landk_fonts.dart';
 // ignore: must_be_immutable
 class NewVendors extends StatefulWidget {
   NewVendors({super.key, required this.vendors});
-  List<Vendor> vendors;
+  List<Store> vendors;
   @override
   State<NewVendors> createState() => _NewVendorsState();
 }
@@ -27,8 +27,9 @@ class _NewVendorsState extends State<NewVendors> {
 
   @override
   Widget build(BuildContext context) {
-    widget.vendors =
-        widget.vendors.where((e) => e.acceptable == false).toList();
+    widget.vendors = widget.vendors
+        .where((e) => e.acceptable == false && e.active == false)
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -77,6 +78,7 @@ class _NewVendorsState extends State<NewVendors> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      width: 4.w,
                       imageUrl: delegates.logoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
@@ -88,7 +90,7 @@ class _NewVendorsState extends State<NewVendors> {
                     ),
                   ),
                   DataCell(
-                    Text(delegates.storName),
+                    Text(delegates.name),
                   ),
                   DataCell(
                     Text(delegates.onwer.email),

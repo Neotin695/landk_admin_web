@@ -14,7 +14,7 @@ import '../../../core/theme/fonts/landk_fonts.dart';
 // ignore: must_be_immutable
 class VendorList extends StatefulWidget {
   VendorList({super.key, required this.vendors});
-  List<Vendor> vendors;
+  List<Store> vendors;
   @override
   State<VendorList> createState() => _VendorListState();
 }
@@ -27,8 +27,7 @@ class _VendorListState extends State<VendorList> {
 
   @override
   Widget build(BuildContext context) {
-    widget.vendors =
-        widget.vendors.where((e) => e.status == false).toList();
+    widget.vendors = widget.vendors.where((e) => e.active == true).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -77,6 +76,7 @@ class _VendorListState extends State<VendorList> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      width: 4.w,
                       imageUrl: customer.logoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
@@ -88,7 +88,7 @@ class _VendorListState extends State<VendorList> {
                     ),
                   ),
                   DataCell(
-                    Text(customer.storName),
+                    Text(customer.name),
                   ),
                   DataCell(
                     Text(customer.onwer.email),
@@ -104,7 +104,7 @@ class _VendorListState extends State<VendorList> {
                           overlayColor: MaterialStateProperty.all(organge45),
                           trackColor: MaterialStateProperty.all(organge45),
                           inactiveThumbColor: organge82,
-                          value: customer.status,
+                          value: customer.active,
                           onChanged: (value) {
                             WidgetsBinding.instance.addPostFrameCallback(
                               (timeStamp) {
