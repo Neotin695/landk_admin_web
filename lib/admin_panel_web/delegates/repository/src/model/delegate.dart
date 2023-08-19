@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/model.dart';
@@ -21,7 +18,7 @@ class Delegate extends Equatable {
   bool isEmailVerified;
   bool available;
   AddressInfo location;
-  List<String> vehicleImages;
+  String vehicle;
 
   Delegate({
     required this.id,
@@ -38,7 +35,7 @@ class Delegate extends Equatable {
     required this.available,
     required this.birthOfDate,
     required this.vehicleNum,
-    required this.vehicleImages,
+    required this.vehicle,
   });
 
   static Delegate empty() => Delegate(
@@ -56,7 +53,7 @@ class Delegate extends Equatable {
         available: false,
         birthOfDate: '',
         vehicleNum: '',
-        vehicleImages: const [],
+        vehicle: '',
       );
 
   @override
@@ -75,7 +72,7 @@ class Delegate extends Equatable {
         available,
         birthOfDate,
         vehicleNum,
-        vehicleImages
+        vehicle
       ];
 
   Map<String, dynamic> toMap() {
@@ -94,7 +91,7 @@ class Delegate extends Equatable {
       'available': available,
       'birthOfDate': birthOfDate,
       'vehicleNum': vehicleNum,
-      'vehicleImages': vehicleImages,
+      'vehicle': vehicle,
     };
   }
 
@@ -114,12 +111,7 @@ class Delegate extends Equatable {
       available: map['available'] as bool,
       birthOfDate: map['birthOfDate'] as String,
       vehicleNum: map['vehicleNum'] as String,
-      vehicleImages: List<String>.from((map['vehicleImages'].map((e) => e))),
+      vehicle: map['vehicleImages'] as String,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Delegate.fromJson(String source) =>
-      Delegate.fromMap(json.decode(source) as Map<String, dynamic>);
 }

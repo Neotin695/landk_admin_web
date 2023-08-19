@@ -6,10 +6,10 @@ abstract class _VehicleRepository {
   Future<void> insertVehicle(Vehicle vehicle);
 
   Either<String, Stream<List<Vehicle>>> fetchAllVehicles();
-  Stream<Vehicle> fetchVehicle(String id);
+  Future<Vehicle> fetchVehicle(String id);
   Future<void> deleteVehicle(String id);
   Future<void> updateVehicle(Vehicle vehicle);
-  Future<void> toggleStateVehicle(Vehicle vehicle);
+  Future<void> toggleStateVehicle(String id, bool state);
 }
 
 class VehicleRepository implements _VehicleRepository {
@@ -33,11 +33,8 @@ class VehicleRepository implements _VehicleRepository {
   }
 
   @override
-  Future<void> toggleStateVehicle(Vehicle vehicle) async {
-    await _firestore
-        .collection('vehicles')
-        .doc(vehicle.id)
-        .update(vehicle.toMap());
+  Future<void> toggleStateVehicle(String id, bool state) async {
+    await _firestore.collection('vehicles').doc(id).update({'status': state});
   }
 
   @override
@@ -60,15 +57,8 @@ class VehicleRepository implements _VehicleRepository {
   }
 
   @override
-  Stream<Vehicle> fetchVehicle(String id) {
-    return _firestore.collection('vehicles').doc(id).snapshots().map((event) {
-      if (event.exists) {
-        return Vehicle.empty();
-      } else if (event.data()!.isNotEmpty) {
-        return Vehicle.fromMap(event.data()!);
-      } else {
-        return Vehicle.empty();
-      }
-    });
+  Future<Vehicle> fetchVehicle(String id) async {
+    return Vehicle.fromMap(
+        (await _firestore.collection('vehicles').doc(id).get()).data()!);
   }
 }

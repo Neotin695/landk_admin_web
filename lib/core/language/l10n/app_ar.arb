@@ -41,5 +41,13 @@
   "newDelegates": "المندوبون الجدد",
   "accept": "قبول",
   "phoneNum": "رقم الهاتف",
+  "insertNewVehicle": "اضافة مركبه جديده",
+  "typeVehicleName": "اكتب اسم المركبه",
+  "extraCharges": "رسوم اضافية",
+  "minimumCoverage": "الحد الادني للتغطية",
+  "maximumCoverage": "الحد الافصي للتغطية",
+  "status": "الحاله",
+  "active": "مفعل",
+  "disable": "غير مفعل",
   "actions": "أجراءات"
 }

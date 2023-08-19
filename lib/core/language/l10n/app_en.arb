@@ -41,5 +41,13 @@
   "products": "products",
   "uploadImage": "Upload Image",
   "accept": "Accept",
+  "insertNewVehicle": "Insert New Vehicle",
+  "typeVehicleName": "Type Vehicle Name",
+  "extraCharges": "Extra Charges",
+  "minimumCoverage": "Minimum Coverage",
+  "maximumCoverage": "Maximum Coverage",
+  "status": "Status",
+  "active": "Active",
+  "disable": "Disable",
   "signOut": "Sign out"
 }

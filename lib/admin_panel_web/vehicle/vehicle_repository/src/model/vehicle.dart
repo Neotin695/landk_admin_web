@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,21 +10,18 @@ class Vehicle extends Equatable {
   final double maximumCoverage;
   final double minimumCoverage;
   final bool status;
-  final FieldValue createdDate;
-  final FieldValue updatedDate;
-  const Vehicle(
-      {required this.id,
-      required this.vehicleNameDef,
-      required this.vehicleNameAR,
-      required this.vehicleNameEN,
-      required this.extraCharges,
-      required this.maximumCoverage,
-      required this.minimumCoverage,
-      required this.status,
-      required this.createdDate,
-      required this.updatedDate});
+  const Vehicle({
+    required this.id,
+    required this.vehicleNameDef,
+    required this.vehicleNameAR,
+    required this.vehicleNameEN,
+    required this.extraCharges,
+    required this.maximumCoverage,
+    required this.minimumCoverage,
+    required this.status,
+  });
 
-  static Vehicle empty() => Vehicle(
+  static Vehicle empty() => const Vehicle(
         id: '',
         vehicleNameDef: '',
         vehicleNameAR: '',
@@ -36,8 +30,6 @@ class Vehicle extends Equatable {
         maximumCoverage: 0,
         minimumCoverage: 0,
         status: false,
-        createdDate: FieldValue.serverTimestamp(),
-        updatedDate: FieldValue.serverTimestamp(),
       );
 
   @override
@@ -50,8 +42,6 @@ class Vehicle extends Equatable {
         maximumCoverage,
         minimumCoverage,
         status,
-        createdDate,
-        updatedDate
       ];
 
   Map<String, dynamic> toMap() {
@@ -64,8 +54,6 @@ class Vehicle extends Equatable {
       'maximumCoverage': maximumCoverage,
       'minimumCoverage': minimumCoverage,
       'status': status,
-      'createdDate': createdDate,
-      'updatedDate': updatedDate,
     };
   }
 
@@ -79,8 +67,6 @@ class Vehicle extends Equatable {
       maximumCoverage: map['maximumCoverage'] as double,
       minimumCoverage: map['minimumCoverage'] as double,
       status: map['status'] as bool,
-      createdDate: map['createdDate'] as FieldValue,
-      updatedDate: map['updatedDate'] as FieldValue,
     );
   }
   Vehicle copyWith(
@@ -95,15 +81,14 @@ class Vehicle extends Equatable {
       FieldValue? createdDate,
       FieldValue? updatedDate}) {
     return Vehicle(
-        id: id ?? this.id,
-        vehicleNameDef: vehicleNameDef ?? this.vehicleNameDef,
-        vehicleNameAR: vehicleNameAR ?? this.vehicleNameAR,
-        vehicleNameEN: vehicleNameEN ?? this.vehicleNameEN,
-        extraCharges: extraCharges ?? this.extraCharges,
-        maximumCoverage: maximumCoverage ?? this.maximumCoverage,
-        minimumCoverage: minimumCoverage ?? this.minimumCoverage,
-        status: status ?? this.status,
-        createdDate: createdDate ?? this.createdDate,
-        updatedDate: updatedDate ?? this.updatedDate);
+      id: id ?? this.id,
+      vehicleNameDef: vehicleNameDef ?? this.vehicleNameDef,
+      vehicleNameAR: vehicleNameAR ?? this.vehicleNameAR,
+      vehicleNameEN: vehicleNameEN ?? this.vehicleNameEN,
+      extraCharges: extraCharges ?? this.extraCharges,
+      maximumCoverage: maximumCoverage ?? this.maximumCoverage,
+      minimumCoverage: minimumCoverage ?? this.minimumCoverage,
+      status: status ?? this.status,
+    );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:admin_panel_web/admin_panel_web/home/views/dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/dashboard_bloc.dart';
 import '../repository/dashboard_repository.dart';
+import 'dashboard_view.dart';
 
 class DashboardPage extends StatelessWidget {
   static Page page() => MaterialPage(

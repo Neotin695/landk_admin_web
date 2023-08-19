@@ -1,3 +1,4 @@
+import 'package:admin_panel_web/admin_panel_web/vehicle/view/vehicle_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class VehiclePage extends StatelessWidget {
       value: vehicleRepository,
       child: BlocProvider(
         create: (context) => VehicleBloc(vehicleRepository: vehicleRepository),
-        child: Container(),
+        child: const VehicleView(),
       ),
     );
   }

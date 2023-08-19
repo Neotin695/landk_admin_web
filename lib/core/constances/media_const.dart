@@ -14,3 +14,4 @@ var iStors = 'assets/icons/stors.svg';
 var iLogoOrange = 'assets/icons/logo_orange.svg';
 var iLogo = 'assets/icons/logo.svg';
 var iProduct = 'assets/icons/product.svg';
+var iVehicle = 'assets/icons/vehicle.svg';

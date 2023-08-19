@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../language/lang.dart';
 import '../services/common.dart';
 import '../theme/colors/landk_colors.dart';
 
@@ -17,6 +18,8 @@ Widget loadingWidget() {
 Alignment autoAlignTop() {
   return locale() ? Alignment.topRight : Alignment.topLeft;
 }
+
+AppLocalizations trans(BuildContext context) => AppLocalizations.of(context)!;
 
 Alignment autoAlignCenter() {
   return locale() ? Alignment.centerRight : Alignment.centerLeft;

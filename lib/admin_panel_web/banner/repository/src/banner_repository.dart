@@ -53,8 +53,6 @@ class BannerRepository implements _BannerRepository {
         await _firestore.collection('banners').doc(docId).set(Banner(
               id: docId,
               photoUrl: await snapshot.ref.getDownloadURL(),
-              createdDate: FieldValue.serverTimestamp(),
-              updatedDate: FieldValue.serverTimestamp(),
             ).toMap());
         return TaskState.success;
       } else if (snapshot.state == TaskState.running) {

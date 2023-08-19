@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'package:admin_panel_web/admin_panel_web/home/repository/dashboard_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import '../repository/src/dashboard_repository.dart';
+import '../repository/src/model/analysis.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';

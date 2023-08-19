@@ -1,9 +1,9 @@
 import 'package:admin_panel_web/admin_panel_web/banner/view/banner_page.dart';
 import 'package:admin_panel_web/admin_panel_web/delegates/view/manage_delegate_page.dart';
-import 'package:admin_panel_web/admin_panel_web/delegates/view/preview_delegates_view.dart';
 import 'package:admin_panel_web/admin_panel_web/manage_user/view/manage_user_page.dart';
 import 'package:admin_panel_web/admin_panel_web/orders/view/order_page.dart';
 import 'package:admin_panel_web/admin_panel_web/product/view/product_page.dart';
+import 'package:admin_panel_web/admin_panel_web/vehicle/view/vehicle_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../category/view/category_page.dart';
@@ -22,7 +22,7 @@ enum HomeState {
   notification,
   delegates,
   categories,
-
+  vehicle,
   order,
 }
 
@@ -40,7 +40,8 @@ List<Page> onGenerateHomePage(HomeState state, List<Page> pages) {
       return [ManageUserPage.page()];
     case HomeState.banners:
       return [BannerPage.page()];
-
+    case HomeState.vehicle:
+      return [VehiclePage.page()];
     case HomeState.settings:
       return [SettingsPage.page()];
     case HomeState.notification:
