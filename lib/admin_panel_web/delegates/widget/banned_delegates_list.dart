@@ -28,7 +28,7 @@ class _BannedListState extends State<BannedList> {
   @override
   Widget build(BuildContext context) {
     widget.delegates =
-        widget.delegates.where((e) => e.active == false).toList();
+        widget.delegates.where((e) => e.active == false && e.acceptable == true).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(

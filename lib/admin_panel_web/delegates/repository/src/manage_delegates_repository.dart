@@ -53,7 +53,7 @@ class ManageDelegatesRepository implements _ManageDelegates {
       await _fireStore
           .collection('delegates')
           .doc(id)
-          .update({'acceptable': true});
+          .update({'acceptable': true, 'active': true});
     } catch (e) {
       print(e);
     }

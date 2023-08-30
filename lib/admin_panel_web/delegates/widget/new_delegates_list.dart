@@ -27,8 +27,9 @@ class _NewDelegatesListState extends State<NewDelegatesList> {
 
   @override
   Widget build(BuildContext context) {
-    widget.delegates =
-        widget.delegates.where((e) => e.acceptable == false).toList();
+    widget.delegates = widget.delegates
+        .where((e) => e.acceptable == false && e.active == false)
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -118,9 +119,8 @@ class _NewDelegatesListState extends State<NewDelegatesList> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset('assets/icons/eye.svg')
-                        ),
+                            onPressed: () {},
+                            icon: SvgPicture.asset('assets/icons/eye.svg')),
                       ],
                     ),
                   )
