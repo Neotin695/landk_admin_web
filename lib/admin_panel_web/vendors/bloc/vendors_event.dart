@@ -8,19 +8,13 @@ abstract class VendorsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class _FetchAllVendors extends VendorsEvent {
-  final List<Store> vendors;
-  const _FetchAllVendors({
-    required this.vendors,
-  });
-}
+class _FetchAllVendors extends VendorsEvent {}
 
 class FetchOneVendor extends VendorsEvent {
   final Store vendor;
   const FetchOneVendor({
     required this.vendor,
   });
-  
 }
 
 class DeleteVendor extends VendorsEvent {

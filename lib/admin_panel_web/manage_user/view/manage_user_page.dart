@@ -1,3 +1,4 @@
+import 'package:admin_panel_web/admin_panel_web/manage_user/view/manage_user_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +20,7 @@ class ManageUserPage extends StatelessWidget {
       child: BlocProvider(
         create: (context) =>
             ManageUserBloc(manageUserRepository: manageUserRepository),
-        child: Container(),
+        child: const ManageUserView(),
       ),
     );
   }

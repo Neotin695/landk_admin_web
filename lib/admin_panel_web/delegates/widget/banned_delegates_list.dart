@@ -27,8 +27,9 @@ class _BannedListState extends State<BannedList> {
 
   @override
   Widget build(BuildContext context) {
-    widget.delegates =
-        widget.delegates.where((e) => e.active == false && e.acceptable == true).toList();
+    widget.delegates = widget.delegates
+        .where((e) => e.active == false && e.acceptable == true)
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(
@@ -77,6 +78,9 @@ class _BannedListState extends State<BannedList> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: 5.w,
+                      height: 5.h,
                       imageUrl: delegate.photoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {

@@ -78,6 +78,9 @@ class _NewDelegatesListState extends State<NewDelegatesList> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: 5.w,
+                      height: 5.h,
                       imageUrl: delegates.photoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {

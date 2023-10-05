@@ -77,6 +77,9 @@ class _BannedListState extends State<BannedList> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: 5.w,
+                      height: 5.h,
                       imageUrl: customer.photoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {

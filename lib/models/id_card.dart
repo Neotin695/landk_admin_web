@@ -6,28 +6,25 @@ class IdCard extends Equatable {
   String middleName;
   String lastName;
   String nationalNum;
-  String docUrl;
+
   IdCard({
     required this.firstName,
     required this.middleName,
     required this.lastName,
     required this.nationalNum,
-    required this.docUrl,
   });
 
   @override
-  List<Object?> get props =>
-      [firstName, middleName, docUrl, lastName, nationalNum];
+  List<Object?> get props => [firstName, middleName, lastName, nationalNum];
 
-  static IdCard empty() => IdCard(
-      firstName: '', docUrl: '', middleName: '', lastName: '', nationalNum: '');
+  static IdCard empty() =>
+      IdCard(firstName: '', middleName: '', lastName: '', nationalNum: '');
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'firstName': firstName,
       'middleName': middleName,
       'lastName': lastName,
-      'docUrl': docUrl,
       'nationalNum': nationalNum,
     };
   }
@@ -37,7 +34,6 @@ class IdCard extends Equatable {
       firstName: map['firstName'] as String,
       middleName: map['middleName'] as String,
       lastName: map['lastName'] as String,
-      docUrl: map['docUrl'] as String,
       nationalNum: map['nationalNum'] as String,
     );
   }

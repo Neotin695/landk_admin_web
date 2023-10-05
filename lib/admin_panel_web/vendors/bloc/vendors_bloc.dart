@@ -15,12 +15,7 @@ class VendorsBloc extends Bloc<VendorsEvent, VendorsState> {
     on<AcceptVendor>(_acceptVendor);
     on<FetchOneVendor>(_fetchOneVendor);
     on<ToggleVendorState>(_toggleVendorState);
-    _subscription = vendorsRepository.fetchVendors().listen((event) {
-      add(_FetchAllVendors(vendors: event));
-    });
-    _subscription.onError((err) {
-      print(err);
-    });
+    add(_FetchAllVendors());
   }
 
   FutureOr<void> _fetchOneVendor(FetchOneVendor event, emit) {
@@ -58,11 +53,12 @@ class VendorsBloc extends Bloc<VendorsEvent, VendorsState> {
     await vendorsRepository.deleteVendor(event.id);
   }
 
-  FutureOr<void> _fetchAllVendor(_FetchAllVendors event, emit) {
+  FutureOr<void> _fetchAllVendor(
+      _FetchAllVendors event, Emitter<VendorsState> emit) async {
     emit(VendorsState.loading);
-    vendors = event.vendors;
-    if (vendors.isNotEmpty) {
-      emit(VendorsState.success);
-    }
+    await emit.forEach(vendorsRepository.fetchVendors(), onData: (data) {
+      vendors = data;
+      return VendorsState.success;
+    });
   }
 }

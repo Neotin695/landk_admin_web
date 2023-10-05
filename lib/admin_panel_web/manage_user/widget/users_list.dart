@@ -79,6 +79,9 @@ class _CustomerListState extends State<CustomerList> {
                 cells: [
                   DataCell(
                     CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: 5.w,
+                      height: 5.h,
                       imageUrl: customer.photoUrl,
                       placeholder: (context, url) => SvgPicture.asset(iPerson),
                       errorWidget: (context, url, error) {
@@ -128,9 +131,8 @@ class _CustomerListState extends State<CustomerList> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset('assets/icons/eye.svg')
-                        ),
+                            onPressed: () {},
+                            icon: SvgPicture.asset('assets/icons/eye.svg')),
                       ],
                     ),
                   )

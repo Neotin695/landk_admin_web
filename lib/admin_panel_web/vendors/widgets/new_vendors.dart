@@ -27,9 +27,8 @@ class _NewVendorsState extends State<NewVendors> {
 
   @override
   Widget build(BuildContext context) {
-    widget.vendors = widget.vendors
-        .where((e) => e.acceptable == false && e.active == false)
-        .toList();
+    widget.vendors =
+        widget.vendors.where((e) => e.acceptable == false).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DataTable(

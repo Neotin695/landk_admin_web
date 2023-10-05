@@ -59,11 +59,11 @@ class _ManageUserViewState extends State<ManageUserView>
             child: TabBarView(
               controller: _controller,
               children: [
-                CustomerList(
+                BannedList(
                   customers:
                       context.select((ManageUserBloc value) => value.customers),
                 ),
-                BannedList(
+                CustomerList(
                   customers:
                       context.select((ManageUserBloc value) => value.customers),
                 ),
