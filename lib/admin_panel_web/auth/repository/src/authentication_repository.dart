@@ -112,12 +112,7 @@ class AuthenticationRepository {
   Future<void> signInWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
-      if (email == 'N.o.m.e80213960@admin.com') {
-        await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
-      } else {
-        throw const LogInWithEmailAndPasswordFailure('invalid email');
-      }
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on auth.FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (e) {

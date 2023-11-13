@@ -21,15 +21,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -53,12 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB-ESRUBGvCN_vbR7sl1fDnTt29wM2ntlw',
-    appId: '1:760162953245:web:7ae62242fa793676c87ef4',
-    messagingSenderId: '760162953245',
-    projectId: 'landk-83dd6',
-    authDomain: 'landk-83dd6.firebaseapp.com',
-    storageBucket: 'landk-83dd6.appspot.com',
-    measurementId: 'G-4KNKFP44DV',
+    apiKey: 'AIzaSyCJpMiZZNBk0sW6WGrXuE3W5uqxai4cnQw',
+    appId: '1:662186870563:web:1bccdfa277972eef472e96',
+    messagingSenderId: '662186870563',
+    projectId: 'auxillium-79120',
+    authDomain: 'auxillium-79120.firebaseapp.com',
+    storageBucket: 'auxillium-79120.appspot.com',
+    measurementId: 'G-CZSR6R03QK',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyChAKRxKbaJouHR2b-jPEa_zzLpNccyw88',
+    appId: '1:662186870563:android:08e8a47bafc2c337472e96',
+    messagingSenderId: '662186870563',
+    projectId: 'auxillium-79120',
+    storageBucket: 'auxillium-79120.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAnGuULqxGc-6v8s9PPBPsJ5EChfHB82II',
+    appId: '1:662186870563:ios:f81b0a245c7e54ea472e96',
+    messagingSenderId: '662186870563',
+    projectId: 'auxillium-79120',
+    storageBucket: 'auxillium-79120.appspot.com',
+    androidClientId: '662186870563-ah597vg7bov2t2mmkq054sdh2rd6gpiq.apps.googleusercontent.com',
+    iosClientId: '662186870563-mr39fuhujom0srgi220r5m7vumth6219.apps.googleusercontent.com',
+    iosBundleId: 'mehani.sim.adminPanelWeb',
   );
 }
