@@ -22,6 +22,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardStatus> {
 
     if (analysis != Analysis.empty()) {
       emit(DashboardStatus.success);
+    } else {
+      emit(DashboardStatus.initial);
     }
   }
 }

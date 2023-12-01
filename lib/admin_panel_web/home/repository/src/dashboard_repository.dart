@@ -18,6 +18,14 @@ class DashboardRepository implements _DashboardRepository {
     int products = 0;
     int orders = 0;
     int stors = 0;
+    double totalEarn = 0;
+    int orderPlaced = 0;
+    int orderConfirmed = 0;
+    int orderShapped = 0;
+    int orderCompleted = 0;
+    int orderCanceled = 0;
+    int deliveryFailed = 0;
+    int waitingForDriver = 0;
 
     await _firestore.collection('customers').get().then((value) async {
       customers = value.docs.length;
@@ -41,6 +49,14 @@ class DashboardRepository implements _DashboardRepository {
       productsCount: products,
       storsCount: stors,
       ordersCount: orders,
+      totalEarn: totalEarn,
+      orderCanceled: orderCanceled,
+      orderCompleted: orderCompleted,
+      orderConfirmed: orderConfirmed,
+      orderPlaced: orderPlaced,
+      orderShapped: orderShapped,
+      deliveryFailed: deliveryFailed,
+      waitingForDriver: waitingForDriver,
     );
   }
 }

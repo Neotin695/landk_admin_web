@@ -47,31 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCJpMiZZNBk0sW6WGrXuE3W5uqxai4cnQw',
-    appId: '1:662186870563:web:1bccdfa277972eef472e96',
-    messagingSenderId: '662186870563',
-    projectId: 'auxillium-79120',
-    authDomain: 'auxillium-79120.firebaseapp.com',
-    storageBucket: 'auxillium-79120.appspot.com',
-    measurementId: 'G-CZSR6R03QK',
+    apiKey: 'AIzaSyDW1l4nDBsSts-eUGjuRLTmU1a3U6DqfTM',
+    appId: '1:188186765987:web:4eaaa84641d3604b462d16',
+    messagingSenderId: '188186765987',
+    projectId: 'fir-multi-vendor-fa07d',
+    authDomain: 'fir-multi-vendor-fa07d.firebaseapp.com',
+    storageBucket: 'fir-multi-vendor-fa07d.appspot.com',
+    measurementId: 'G-JHBKNTPJKY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyChAKRxKbaJouHR2b-jPEa_zzLpNccyw88',
-    appId: '1:662186870563:android:08e8a47bafc2c337472e96',
-    messagingSenderId: '662186870563',
-    projectId: 'auxillium-79120',
-    storageBucket: 'auxillium-79120.appspot.com',
+    apiKey: 'AIzaSyAK5gSlMl2YTeyixpDFIKoN_8l3Ez80mwQ',
+    appId: '1:188186765987:android:11ec4563e3768c63462d16',
+    messagingSenderId: '188186765987',
+    projectId: 'fir-multi-vendor-fa07d',
+    storageBucket: 'fir-multi-vendor-fa07d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAnGuULqxGc-6v8s9PPBPsJ5EChfHB82II',
-    appId: '1:662186870563:ios:f81b0a245c7e54ea472e96',
-    messagingSenderId: '662186870563',
-    projectId: 'auxillium-79120',
-    storageBucket: 'auxillium-79120.appspot.com',
-    androidClientId: '662186870563-ah597vg7bov2t2mmkq054sdh2rd6gpiq.apps.googleusercontent.com',
-    iosClientId: '662186870563-mr39fuhujom0srgi220r5m7vumth6219.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBKTkhlSEyP-GAL87Hw9O_RW_04gwS8R2I',
+    appId: '1:188186765987:ios:d8a8c21ed2150e2e462d16',
+    messagingSenderId: '188186765987',
+    projectId: 'fir-multi-vendor-fa07d',
+    storageBucket: 'fir-multi-vendor-fa07d.appspot.com',
     iosBundleId: 'mehani.sim.adminPanelWeb',
   );
 }
