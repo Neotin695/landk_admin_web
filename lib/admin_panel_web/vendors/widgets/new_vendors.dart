@@ -1,6 +1,7 @@
 import 'package:admin_panel_web/admin_panel_web/vendors/bloc/vendors_bloc.dart';
 import 'package:admin_panel_web/admin_panel_web/vendors/vendors_repository/src/models/model.dart';
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
+import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class _NewVendorsState extends State<NewVendors> {
         widget.vendors.where((e) => e.acceptable == false).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: DataTable(
+      child:widget.vendors.isNotEmpty? DataTable(
         headingRowColor: MaterialStateProperty.all(grey1),
         dataRowColor: MaterialStateProperty.all(grey2),
         columns: [
@@ -128,7 +129,7 @@ class _NewVendorsState extends State<NewVendors> {
               ),
             )
             .toList(),
-      ),
+      ):emptyData(context),
     );
   }
 }

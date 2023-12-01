@@ -30,112 +30,117 @@ class _VehicleListState extends State<VehicleList> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: DataTable(
-        headingRowColor: MaterialStateProperty.all(grey1),
-        dataRowColor: MaterialStateProperty.all(grey2),
-        columns: [
-          DataColumn(
-            onSort: (index, state) {},
-            label: Text(
-              trans(context).status,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            onSort: (index, state) {},
-            label: Text(
-              trans(context).name,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              trans(context).extraCharges,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              trans(context).minimumCoverage,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              trans(context).maximumCoverage,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              trans(context).actions,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        rows: widget.vehicles
-            .map(
-              (vehicle) => DataRow(
-                cells: [
-                  DataCell(Text(vehicle.status
-                      ? trans(context).active
-                      : trans(context).disable)),
-                  DataCell(
-                    Text(locale()
-                        ? vehicle.vehicleNameAR
-                        : vehicle.vehicleNameEN),
+      child: widget.vehicles.isNotEmpty
+          ? DataTable(
+              headingRowColor: MaterialStateProperty.all(grey1),
+              dataRowColor: MaterialStateProperty.all(grey2),
+              columns: [
+                DataColumn(
+                  onSort: (index, state) {},
+                  label: Text(
+                    trans(context).status,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(vehicle.extraCharges.toString()),
+                ),
+                DataColumn(
+                  onSort: (index, state) {},
+                  label: Text(
+                    trans(context).name,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(vehicle.minimumCoverage.toString()),
+                ),
+                DataColumn(
+                  label: Text(
+                    trans(context).extraCharges,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(vehicle.maximumCoverage.toString()),
+                ),
+                DataColumn(
+                  label: Text(
+                    trans(context).minimumCoverage,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Row(
-                      children: [
-                        Switch(
-                          thumbColor: MaterialStateProperty.all(organge),
-                          overlayColor: MaterialStateProperty.all(organge45),
-                          trackColor: MaterialStateProperty.all(organge45),
-                          value: vehicle.status,
-                          onChanged: (value) {
-                            WidgetsBinding.instance.addPostFrameCallback(
-                              (timeStamp) {
-                                bloc.add(
-                                  ToggleActiveVehicle(
-                                    state: value,
-                                    id: vehicle.id,
-                                  ),
-                                );
-                              },
-                            );
-                            setState(() {});
-                          },
+                ),
+                DataColumn(
+                  label: Text(
+                    trans(context).maximumCoverage,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    trans(context).actions,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+              rows: widget.vehicles
+                  .map(
+                    (vehicle) => DataRow(
+                      cells: [
+                        DataCell(Text(vehicle.status
+                            ? trans(context).active
+                            : trans(context).disable)),
+                        DataCell(
+                          Text(locale()
+                              ? vehicle.vehicleNameAR
+                              : vehicle.vehicleNameEN),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            bloc.add(DeleteVehicle(id: vehicle.id));
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: red,
+                        DataCell(
+                          Text(vehicle.extraCharges.toString()),
+                        ),
+                        DataCell(
+                          Text(vehicle.minimumCoverage.toString()),
+                        ),
+                        DataCell(
+                          Text(vehicle.maximumCoverage.toString()),
+                        ),
+                        DataCell(
+                          Row(
+                            children: [
+                              Switch(
+                                thumbColor: MaterialStateProperty.all(organge),
+                                overlayColor:
+                                    MaterialStateProperty.all(organge45),
+                                trackColor:
+                                    MaterialStateProperty.all(organge45),
+                                value: vehicle.status,
+                                onChanged: (value) {
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                    (timeStamp) {
+                                      bloc.add(
+                                        ToggleActiveVehicle(
+                                          state: value,
+                                          id: vehicle.id,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  setState(() {});
+                                },
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  bloc.add(DeleteVehicle(id: vehicle.id));
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: red,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon:
+                                      SvgPicture.asset('assets/icons/eye.svg')),
+                            ],
                           ),
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: SvgPicture.asset('assets/icons/eye.svg')),
+                        )
                       ],
                     ),
                   )
-                ],
-              ),
+                  .toList(),
             )
-            .toList(),
-      ),
+          : emptyData(context),
     );
   }
 }

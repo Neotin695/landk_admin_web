@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 import '../language/lang.dart';
 import '../services/common.dart';
 import '../theme/colors/landk_colors.dart';
+import '../theme/fonts/landk_fonts.dart';
 
 Widget vSpace(double height) => SizedBox(height: height.h);
 Widget hSpace(double width) => SizedBox(width: width.h);
@@ -13,6 +14,15 @@ Widget loadingWidget() {
       width: 5.w,
       height: 5.h,
       child: const Center(child: CircularProgressIndicator()));
+}
+
+Center emptyData(BuildContext context) {
+  return Center(
+    child: Text(
+      trans(context).notData,
+      style: TextStyle(fontSize: h4!.fontSize),
+    ),
+  );
 }
 
 Alignment autoAlignTop() {

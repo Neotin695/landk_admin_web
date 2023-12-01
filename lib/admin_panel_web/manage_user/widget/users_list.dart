@@ -1,3 +1,4 @@
+import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class _CustomerListState extends State<CustomerList> {
     widget.customers = widget.customers.where((e) => e.active == true).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: DataTable(
+      child:widget.customers.isNotEmpty? DataTable(
         headingRowColor: MaterialStateProperty.all(grey1),
         dataRowColor: MaterialStateProperty.all(grey2),
         columns: [
@@ -140,7 +141,7 @@ class _CustomerListState extends State<CustomerList> {
               ),
             )
             .toList(),
-      ),
+      ):emptyData(context),
     );
   }
 }

@@ -11,6 +11,7 @@
   "order": "Order",
   "earn": "Total Earning",
   "users": "Users",
+  "notData": "No Data",
   "orderPlaced": "Order Placed",
   "orderConfirmed": "Order Confirmed",
   "orderShipped": "Order Shipped",

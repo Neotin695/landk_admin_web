@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../core/constances/media_const.dart';
 import '../../../core/theme/fonts/landk_fonts.dart';
+import '../../../core/tools/tools_widget.dart';
 
 // ignore: must_be_immutable
 class VendorList extends StatefulWidget {
@@ -30,113 +31,119 @@ class _VendorListState extends State<VendorList> {
     widget.vendors = widget.vendors.where((e) => e.active == true).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: DataTable(
-        headingRowColor: MaterialStateProperty.all(grey1),
-        dataRowColor: MaterialStateProperty.all(grey2),
-        columns: [
-          DataColumn(
-            tooltip: 'profile photo',
-            label: Text(
-              AppLocalizations.of(context)!.photo,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            tooltip: 'display name of user',
-            label: Text(
-              AppLocalizations.of(context)!.name,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            tooltip: 'email of user',
-            label: Text(
-              AppLocalizations.of(context)!.email,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            tooltip: 'phone number of user',
-            label: Text(
-              AppLocalizations.of(context)!.phoneNum,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-          DataColumn(
-            tooltip: 'actions want to do',
-            label: Text(
-              AppLocalizations.of(context)!.actions,
-              style: h6!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-        rows: widget.vendors
-            .map(
-              (customer) => DataRow(
-                cells: [
-                  DataCell(
-                    CachedNetworkImage(
-                      width: 4.w,
-                      imageUrl: customer.logoUrl,
-                      placeholder: (context, url) => SvgPicture.asset(iPerson),
-                      errorWidget: (context, url, error) {
-                        return SizedBox(
-                          height: 10.h,
-                          child: SvgPicture.asset(iPerson),
-                        );
-                      },
-                    ),
+      child: widget.vendors.isNotEmpty
+          ? DataTable(
+              headingRowColor: MaterialStateProperty.all(grey1),
+              dataRowColor: MaterialStateProperty.all(grey2),
+              columns: [
+                DataColumn(
+                  tooltip: 'profile photo',
+                  label: Text(
+                    AppLocalizations.of(context)!.photo,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(customer.name),
+                ),
+                DataColumn(
+                  tooltip: 'display name of user',
+                  label: Text(
+                    AppLocalizations.of(context)!.name,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(customer.onwer.email),
+                ),
+                DataColumn(
+                  tooltip: 'email of user',
+                  label: Text(
+                    AppLocalizations.of(context)!.email,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Text(customer.onwer.phoneNum),
+                ),
+                DataColumn(
+                  tooltip: 'phone number of user',
+                  label: Text(
+                    AppLocalizations.of(context)!.phoneNum,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
                   ),
-                  DataCell(
-                    Row(
-                      children: [
-                        Switch(
-                          thumbColor: MaterialStateProperty.all(organge),
-                          overlayColor: MaterialStateProperty.all(organge45),
-                          trackColor: MaterialStateProperty.all(organge45),
-                          inactiveThumbColor: organge82,
-                          value: customer.active,
-                          onChanged: (value) {
-                            WidgetsBinding.instance.addPostFrameCallback(
-                              (timeStamp) {
-                                context.read<VendorsBloc>().add(
-                                      ToggleVendorState(
-                                        state: value,
-                                        id: customer.id,
-                                      ),
-                                    );
-                              },
-                            );
-                            setState(() {});
-                          },
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.delete,
-                            color: red,
+                ),
+                DataColumn(
+                  tooltip: 'actions want to do',
+                  label: Text(
+                    AppLocalizations.of(context)!.actions,
+                    style: h6!.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+              rows: widget.vendors
+                  .map(
+                    (customer) => DataRow(
+                      cells: [
+                        DataCell(
+                          CachedNetworkImage(
+                            width: 4.w,
+                            imageUrl: customer.logoUrl,
+                            placeholder: (context, url) =>
+                                SvgPicture.asset(iPerson),
+                            errorWidget: (context, url, error) {
+                              return SizedBox(
+                                height: 10.h,
+                                child: SvgPicture.asset(iPerson),
+                              );
+                            },
                           ),
                         ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: SvgPicture.asset('assets/icons/eye.svg')),
+                        DataCell(
+                          Text(customer.name),
+                        ),
+                        DataCell(
+                          Text(customer.onwer.email),
+                        ),
+                        DataCell(
+                          Text(customer.onwer.phoneNum),
+                        ),
+                        DataCell(
+                          Row(
+                            children: [
+                              Switch(
+                                thumbColor: MaterialStateProperty.all(organge),
+                                overlayColor:
+                                    MaterialStateProperty.all(organge45),
+                                trackColor:
+                                    MaterialStateProperty.all(organge45),
+                                inactiveThumbColor: organge82,
+                                value: customer.active,
+                                onChanged: (value) {
+                                  WidgetsBinding.instance.addPostFrameCallback(
+                                    (timeStamp) {
+                                      context.read<VendorsBloc>().add(
+                                            ToggleVendorState(
+                                              state: value,
+                                              id: customer.id,
+                                            ),
+                                          );
+                                    },
+                                  );
+                                  setState(() {});
+                                },
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: red,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon:
+                                      SvgPicture.asset('assets/icons/eye.svg')),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )
-                ],
-              ),
+                  .toList(),
             )
-            .toList(),
-      ),
+          : emptyData(context),
     );
   }
 }

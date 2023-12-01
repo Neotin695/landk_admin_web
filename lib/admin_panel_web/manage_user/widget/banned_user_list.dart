@@ -1,4 +1,5 @@
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
+import 'package:admin_panel_web/core/tools/tools_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class _BannedListState extends State<BannedList> {
         widget.customers.where((e) => e.active == false).toList();
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: DataTable(
+      child: widget.customers.isNotEmpty? DataTable(
         headingRowColor: MaterialStateProperty.all(grey1),
         dataRowColor: MaterialStateProperty.all(grey2),
         columns: [
@@ -139,7 +140,7 @@ class _BannedListState extends State<BannedList> {
               ),
             )
             .toList(),
-      ),
+      ):emptyData(context),
     );
   }
 }

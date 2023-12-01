@@ -35,8 +35,58 @@ class DashboardRepository implements _DashboardRepository {
           products = value.docs.length;
           await _firestore.collection('stores').get().then((value) async {
             stors = value.docs.length;
-            await _firestore.collection('orders').get().then((value) {
+            await _firestore.collection('orders').get().then((value) async {
               orders = value.docs.length;
+              await _firestore
+                  .collection('orders')
+                  .where('orderStatus', isEqualTo: 'Canceled')
+                  .get()
+                  .then((value) async {
+                orderCanceled = value.docs.length;
+                await _firestore
+                    .collection('orders')
+                    .where('orderStatus', isEqualTo: 'Placed')
+                    .get()
+                    .then((value) async {
+                  orderPlaced = value.docs.length;
+                  await _firestore
+                      .collection('orders')
+                      .where('orderStatus', isEqualTo: 'Shipped')
+                      .get()
+                      .then((value) async {
+                    orderShapped = value.docs.length;
+                    await _firestore
+                        .collection('orders')
+                        .where('orderStatus', isEqualTo: 'Confirmed')
+                        .get()
+                        .then((value) async {
+                      orderConfirmed = value.docs.length;
+                      await _firestore
+                          .collection('orders')
+                          .where('orderStatus', isEqualTo: 'Completed')
+                          .get()
+                          .then((value) async {
+                        orderCompleted = value.docs.length;
+                        await _firestore
+                            .collection('orders')
+                            .where('orderStatus', isEqualTo: 'DeliveryFailed')
+                            .get()
+                            .then((value) async {
+                          deliveryFailed = value.docs.length;
+                          await _firestore
+                              .collection('orders')
+                              .where('orderStatus',
+                                  isEqualTo: 'WaitingForDriver')
+                              .get()
+                              .then((value) async {
+                            waitingForDriver = value.docs.length;
+                          });
+                        });
+                      });
+                    });
+                  });
+                });
+              });
             });
           });
         });
