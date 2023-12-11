@@ -25,7 +25,7 @@ class DashboardCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: SizedBox(
         width: 18.w,
-        height: 15.h,
+        height: 12.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -37,20 +37,22 @@ class DashboardCard extends StatelessWidget {
                 height: 8.h,
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  label,
-                  style:
-                      h5!.copyWith(fontSize: 4.sp, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '$count',
-                  style:
-                      h5!.copyWith(fontSize: 5.sp, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    label,
+                    style: h5!
+                        .copyWith(fontSize: 4.sp, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '$count',
+                    style: h5!
+                        .copyWith(fontSize: 5.sp, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

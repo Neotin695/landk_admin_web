@@ -3,10 +3,10 @@ import 'package:admin_panel_web/core/services/image_picker/image_picker_mixin.da
 import 'package:admin_panel_web/core/theme/colors/landk_colors.dart';
 import 'package:admin_panel_web/core/theme/fonts/landk_fonts.dart';
 import 'package:admin_panel_web/core/tools/tools_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/language/lang.dart';
+import '../widgets/banner_list.dart';
 
 class BannerView extends StatefulWidget {
   const BannerView({super.key});
@@ -53,45 +53,7 @@ class _BannerViewState extends State<BannerView> {
               );
             },
           ),
-          BlocBuilder<BannerBloc, BannerState>(
-            buildWhen: (previous, next) => previous != next,
-            builder: (context, state) {
-              if (state.status == BannerStatus.loadedData) {
-                return Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 6,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                    children: context.read<BannerBloc>().banners.map(
-                      (e) {
-                        return Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              context
-                                  .read<BannerBloc>()
-                                  .add(DeleteBanner(uid: e.id));
-                            },
-                            child: CachedNetworkImage(
-                              imageUrl: e.photoUrl,
-                              placeholder: (context, url) => loadingWidget(),
-                            ),
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                );
-              } else if (state.status == BannerStatus.loadingData) {
-                return loadingWidget();
-              }
-              return empty();
-            },
-          )
+          const BannerList()
         ],
       ),
     );

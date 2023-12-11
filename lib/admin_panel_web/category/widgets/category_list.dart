@@ -41,7 +41,7 @@ class CategoryList extends StatelessWidget {
         } else if (state.status == CategoryStatus.loadingData) {
           return loadingWidget();
         } else {
-          return empty();
+          return emptyData(context);
         }
       },
     );
